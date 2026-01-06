@@ -24,7 +24,7 @@ export enum ContactFlowState {
   ARCHIVED = 'ARCHIVED',
 }
 
-export enum FlowType {
+export enum ContactFlowType {
   CONTACT_FLOW = 'CONTACT_FLOW',
   CUSTOMER_QUEUE = 'CUSTOMER_QUEUE',
   CUSTOMER_HOLD = 'CUSTOMER_HOLD',
@@ -40,7 +40,7 @@ export enum FlowType {
 export interface ContactFlowProps {
   readonly instance: IInstance;
   readonly name: string;
-  readonly type: FlowType;
+  readonly type: ContactFlowType;
   readonly description?: string;
   readonly state?: ContactFlowState;
   readonly content: string;

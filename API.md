@@ -267,6 +267,271 @@ public readonly instanceArn: string;
 ---
 
 
+### ContactFlowModule <a name="ContactFlowModule" id="aws-cdk-aws-connect-lib.ContactFlowModule"></a>
+
+- *Implements:* <a href="#aws-cdk-aws-connect-lib.IContactFlowModule">IContactFlowModule</a>
+
+#### Initializers <a name="Initializers" id="aws-cdk-aws-connect-lib.ContactFlowModule.Initializer"></a>
+
+```typescript
+import { ContactFlowModule } from 'aws-cdk-aws-connect-lib'
+
+new ContactFlowModule(scope: Construct, id: string, props: ContactFlowModuleProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.Initializer.parameter.props">props</a></code> | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleProps">ContactFlowModuleProps</a></code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="aws-cdk-aws-connect-lib.ContactFlowModule.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="aws-cdk-aws-connect-lib.ContactFlowModule.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="aws-cdk-aws-connect-lib.ContactFlowModule.Initializer.parameter.props"></a>
+
+- *Type:* <a href="#aws-cdk-aws-connect-lib.ContactFlowModuleProps">ContactFlowModuleProps</a>
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+
+---
+
+##### `toString` <a name="toString" id="aws-cdk-aws-connect-lib.ContactFlowModule.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="aws-cdk-aws-connect-lib.ContactFlowModule.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="aws-cdk-aws-connect-lib.ContactFlowModule.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.fromLookup">fromLookup</a></code> | *No description.* |
+
+---
+
+##### ~~`isConstruct`~~ <a name="isConstruct" id="aws-cdk-aws-connect-lib.ContactFlowModule.isConstruct"></a>
+
+```typescript
+import { ContactFlowModule } from 'aws-cdk-aws-connect-lib'
+
+ContactFlowModule.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+###### `x`<sup>Required</sup> <a name="x" id="aws-cdk-aws-connect-lib.ContactFlowModule.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="aws-cdk-aws-connect-lib.ContactFlowModule.isOwnedResource"></a>
+
+```typescript
+import { ContactFlowModule } from 'aws-cdk-aws-connect-lib'
+
+ContactFlowModule.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="aws-cdk-aws-connect-lib.ContactFlowModule.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `isResource` <a name="isResource" id="aws-cdk-aws-connect-lib.ContactFlowModule.isResource"></a>
+
+```typescript
+import { ContactFlowModule } from 'aws-cdk-aws-connect-lib'
+
+ContactFlowModule.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="aws-cdk-aws-connect-lib.ContactFlowModule.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromLookup` <a name="fromLookup" id="aws-cdk-aws-connect-lib.ContactFlowModule.fromLookup"></a>
+
+```typescript
+import { ContactFlowModule } from 'aws-cdk-aws-connect-lib'
+
+ContactFlowModule.fromLookup(scope: Construct, id: string, options: ContactFlowModuleLookupOptions)
+```
+
+###### `scope`<sup>Required</sup> <a name="scope" id="aws-cdk-aws-connect-lib.ContactFlowModule.fromLookup.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="aws-cdk-aws-connect-lib.ContactFlowModule.fromLookup.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `options`<sup>Required</sup> <a name="options" id="aws-cdk-aws-connect-lib.ContactFlowModule.fromLookup.parameter.options"></a>
+
+- *Type:* <a href="#aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions">ContactFlowModuleLookupOptions</a>
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.property.contactFlowModuleArn">contactFlowModuleArn</a></code> | <code>string</code> | The ARN of the flow. |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.property.contactFlowModuleName">contactFlowModuleName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.property.flowModule">flowModule</a></code> | <code>aws-cdk-lib.aws_connect.CfnContactFlowModule</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModule.property.instanceArn">instanceArn</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="aws-cdk-aws-connect-lib.ContactFlowModule.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="aws-cdk-aws-connect-lib.ContactFlowModule.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="aws-cdk-aws-connect-lib.ContactFlowModule.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `contactFlowModuleArn`<sup>Required</sup> <a name="contactFlowModuleArn" id="aws-cdk-aws-connect-lib.ContactFlowModule.property.contactFlowModuleArn"></a>
+
+```typescript
+public readonly contactFlowModuleArn: string;
+```
+
+- *Type:* string
+
+The ARN of the flow.
+
+---
+
+##### `contactFlowModuleName`<sup>Required</sup> <a name="contactFlowModuleName" id="aws-cdk-aws-connect-lib.ContactFlowModule.property.contactFlowModuleName"></a>
+
+```typescript
+public readonly contactFlowModuleName: string;
+```
+
+- *Type:* string
+
+---
+
+##### `flowModule`<sup>Required</sup> <a name="flowModule" id="aws-cdk-aws-connect-lib.ContactFlowModule.property.flowModule"></a>
+
+```typescript
+public readonly flowModule: CfnContactFlowModule;
+```
+
+- *Type:* aws-cdk-lib.aws_connect.CfnContactFlowModule
+
+---
+
+##### `instanceArn`<sup>Required</sup> <a name="instanceArn" id="aws-cdk-aws-connect-lib.ContactFlowModule.property.instanceArn"></a>
+
+```typescript
+public readonly instanceArn: string;
+```
+
+- *Type:* string
+
+---
+
+
 ### EmailAddress <a name="EmailAddress" id="aws-cdk-aws-connect-lib.EmailAddress"></a>
 
 - *Implements:* <a href="#aws-cdk-aws-connect-lib.IEmailAddress">IEmailAddress</a>
@@ -2243,6 +2508,128 @@ public readonly instanceArn: string;
 
 ---
 
+### ContactFlowModuleLookupOptions <a name="ContactFlowModuleLookupOptions" id="aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions"></a>
+
+#### Initializer <a name="Initializer" id="aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions.Initializer"></a>
+
+```typescript
+import { ContactFlowModuleLookupOptions } from 'aws-cdk-aws-connect-lib'
+
+const contactFlowModuleLookupOptions: ContactFlowModuleLookupOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions.property.contactFlowModuleArn">contactFlowModuleArn</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions.property.contactFlowModuleName">contactFlowModuleName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions.property.instanceArn">instanceArn</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `contactFlowModuleArn`<sup>Optional</sup> <a name="contactFlowModuleArn" id="aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions.property.contactFlowModuleArn"></a>
+
+```typescript
+public readonly contactFlowModuleArn: string;
+```
+
+- *Type:* string
+
+---
+
+##### `contactFlowModuleName`<sup>Optional</sup> <a name="contactFlowModuleName" id="aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions.property.contactFlowModuleName"></a>
+
+```typescript
+public readonly contactFlowModuleName: string;
+```
+
+- *Type:* string
+
+---
+
+##### `instanceArn`<sup>Optional</sup> <a name="instanceArn" id="aws-cdk-aws-connect-lib.ContactFlowModuleLookupOptions.property.instanceArn"></a>
+
+```typescript
+public readonly instanceArn: string;
+```
+
+- *Type:* string
+
+---
+
+### ContactFlowModuleProps <a name="ContactFlowModuleProps" id="aws-cdk-aws-connect-lib.ContactFlowModuleProps"></a>
+
+#### Initializer <a name="Initializer" id="aws-cdk-aws-connect-lib.ContactFlowModuleProps.Initializer"></a>
+
+```typescript
+import { ContactFlowModuleProps } from 'aws-cdk-aws-connect-lib'
+
+const contactFlowModuleProps: ContactFlowModuleProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.content">content</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.instance">instance</a></code> | <code><a href="#aws-cdk-aws-connect-lib.IInstance">IInstance</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.name">name</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.description">description</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.state">state</a></code> | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleState">ContactFlowModuleState</a></code> | *No description.* |
+
+---
+
+##### `content`<sup>Required</sup> <a name="content" id="aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.content"></a>
+
+```typescript
+public readonly content: string;
+```
+
+- *Type:* string
+
+---
+
+##### `instance`<sup>Required</sup> <a name="instance" id="aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.instance"></a>
+
+```typescript
+public readonly instance: IInstance;
+```
+
+- *Type:* <a href="#aws-cdk-aws-connect-lib.IInstance">IInstance</a>
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.name"></a>
+
+```typescript
+public readonly name: string;
+```
+
+- *Type:* string
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+
+---
+
+##### `state`<sup>Optional</sup> <a name="state" id="aws-cdk-aws-connect-lib.ContactFlowModuleProps.property.state"></a>
+
+```typescript
+public readonly state: ContactFlowModuleState;
+```
+
+- *Type:* <a href="#aws-cdk-aws-connect-lib.ContactFlowModuleState">ContactFlowModuleState</a>
+
+---
+
 ### ContactFlowProps <a name="ContactFlowProps" id="aws-cdk-aws-connect-lib.ContactFlowProps"></a>
 
 #### Initializer <a name="Initializer" id="aws-cdk-aws-connect-lib.ContactFlowProps.Initializer"></a>
@@ -2260,7 +2647,7 @@ const contactFlowProps: ContactFlowProps = { ... }
 | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowProps.property.content">content</a></code> | <code>string</code> | *No description.* |
 | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowProps.property.instance">instance</a></code> | <code><a href="#aws-cdk-aws-connect-lib.IInstance">IInstance</a></code> | *No description.* |
 | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowProps.property.name">name</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowProps.property.type">type</a></code> | <code><a href="#aws-cdk-aws-connect-lib.FlowType">FlowType</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowProps.property.type">type</a></code> | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType">ContactFlowType</a></code> | *No description.* |
 | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowProps.property.description">description</a></code> | <code>string</code> | *No description.* |
 | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowProps.property.state">state</a></code> | <code><a href="#aws-cdk-aws-connect-lib.ContactFlowState">ContactFlowState</a></code> | *No description.* |
 
@@ -2299,10 +2686,10 @@ public readonly name: string;
 ##### `type`<sup>Required</sup> <a name="type" id="aws-cdk-aws-connect-lib.ContactFlowProps.property.type"></a>
 
 ```typescript
-public readonly type: FlowType;
+public readonly type: ContactFlowType;
 ```
 
-- *Type:* <a href="#aws-cdk-aws-connect-lib.FlowType">FlowType</a>
+- *Type:* <a href="#aws-cdk-aws-connect-lib.ContactFlowType">ContactFlowType</a>
 
 ---
 
@@ -4396,6 +4783,102 @@ public readonly instanceArn: string;
 
 ---
 
+### IContactFlowModule <a name="IContactFlowModule" id="aws-cdk-aws-connect-lib.IContactFlowModule"></a>
+
+- *Extends:* aws-cdk-lib.IResource
+
+- *Implemented By:* <a href="#aws-cdk-aws-connect-lib.ContactFlowModule">ContactFlowModule</a>, <a href="#aws-cdk-aws-connect-lib.IContactFlowModule">IContactFlowModule</a>
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.IContactFlowModule.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#aws-cdk-aws-connect-lib.IContactFlowModule.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#aws-cdk-aws-connect-lib.IContactFlowModule.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#aws-cdk-aws-connect-lib.IContactFlowModule.property.contactFlowModuleArn">contactFlowModuleArn</a></code> | <code>string</code> | The ARN of the flow. |
+| <code><a href="#aws-cdk-aws-connect-lib.IContactFlowModule.property.contactFlowModuleName">contactFlowModuleName</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.IContactFlowModule.property.instanceArn">instanceArn</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="aws-cdk-aws-connect-lib.IContactFlowModule.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="aws-cdk-aws-connect-lib.IContactFlowModule.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="aws-cdk-aws-connect-lib.IContactFlowModule.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `contactFlowModuleArn`<sup>Required</sup> <a name="contactFlowModuleArn" id="aws-cdk-aws-connect-lib.IContactFlowModule.property.contactFlowModuleArn"></a>
+
+```typescript
+public readonly contactFlowModuleArn: string;
+```
+
+- *Type:* string
+
+The ARN of the flow.
+
+---
+
+##### `contactFlowModuleName`<sup>Required</sup> <a name="contactFlowModuleName" id="aws-cdk-aws-connect-lib.IContactFlowModule.property.contactFlowModuleName"></a>
+
+```typescript
+public readonly contactFlowModuleName: string;
+```
+
+- *Type:* string
+
+---
+
+##### `instanceArn`<sup>Required</sup> <a name="instanceArn" id="aws-cdk-aws-connect-lib.IContactFlowModule.property.instanceArn"></a>
+
+```typescript
+public readonly instanceArn: string;
+```
+
+- *Type:* string
+
+---
+
 ### IEmailAddress <a name="IEmailAddress" id="aws-cdk-aws-connect-lib.IEmailAddress"></a>
 
 - *Extends:* aws-cdk-lib.IResource
@@ -5262,6 +5745,27 @@ The ARN of the connect user.
 
 ## Enums <a name="Enums" id="Enums"></a>
 
+### ContactFlowModuleState <a name="ContactFlowModuleState" id="aws-cdk-aws-connect-lib.ContactFlowModuleState"></a>
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleState.ACTIVE">ACTIVE</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowModuleState.ARCHIVED">ARCHIVED</a></code> | *No description.* |
+
+---
+
+##### `ACTIVE` <a name="ACTIVE" id="aws-cdk-aws-connect-lib.ContactFlowModuleState.ACTIVE"></a>
+
+---
+
+
+##### `ARCHIVED` <a name="ARCHIVED" id="aws-cdk-aws-connect-lib.ContactFlowModuleState.ARCHIVED"></a>
+
+---
+
+
 ### ContactFlowState <a name="ContactFlowState" id="aws-cdk-aws-connect-lib.ContactFlowState"></a>
 
 #### Members <a name="Members" id="Members"></a>
@@ -5283,71 +5787,71 @@ The ARN of the connect user.
 ---
 
 
-### FlowType <a name="FlowType" id="aws-cdk-aws-connect-lib.FlowType"></a>
+### ContactFlowType <a name="ContactFlowType" id="aws-cdk-aws-connect-lib.ContactFlowType"></a>
 
 #### Members <a name="Members" id="Members"></a>
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.CONTACT_FLOW">CONTACT_FLOW</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.CUSTOMER_QUEUE">CUSTOMER_QUEUE</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.CUSTOMER_HOLD">CUSTOMER_HOLD</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.CUSTOMER_WHISPER">CUSTOMER_WHISPER</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.AGENT_HOLD">AGENT_HOLD</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.AGENT_WHISPER">AGENT_WHISPER</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.OUTBOUND_WHISPER">OUTBOUND_WHISPER</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.AGENT_TRANSFER">AGENT_TRANSFER</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.QUEUE_TRANSFER">QUEUE_TRANSFER</a></code> | *No description.* |
-| <code><a href="#aws-cdk-aws-connect-lib.FlowType.CAMPAIGN">CAMPAIGN</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.CONTACT_FLOW">CONTACT_FLOW</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.CUSTOMER_QUEUE">CUSTOMER_QUEUE</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.CUSTOMER_HOLD">CUSTOMER_HOLD</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.CUSTOMER_WHISPER">CUSTOMER_WHISPER</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.AGENT_HOLD">AGENT_HOLD</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.AGENT_WHISPER">AGENT_WHISPER</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.OUTBOUND_WHISPER">OUTBOUND_WHISPER</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.AGENT_TRANSFER">AGENT_TRANSFER</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.QUEUE_TRANSFER">QUEUE_TRANSFER</a></code> | *No description.* |
+| <code><a href="#aws-cdk-aws-connect-lib.ContactFlowType.CAMPAIGN">CAMPAIGN</a></code> | *No description.* |
 
 ---
 
-##### `CONTACT_FLOW` <a name="CONTACT_FLOW" id="aws-cdk-aws-connect-lib.FlowType.CONTACT_FLOW"></a>
-
----
-
-
-##### `CUSTOMER_QUEUE` <a name="CUSTOMER_QUEUE" id="aws-cdk-aws-connect-lib.FlowType.CUSTOMER_QUEUE"></a>
+##### `CONTACT_FLOW` <a name="CONTACT_FLOW" id="aws-cdk-aws-connect-lib.ContactFlowType.CONTACT_FLOW"></a>
 
 ---
 
 
-##### `CUSTOMER_HOLD` <a name="CUSTOMER_HOLD" id="aws-cdk-aws-connect-lib.FlowType.CUSTOMER_HOLD"></a>
+##### `CUSTOMER_QUEUE` <a name="CUSTOMER_QUEUE" id="aws-cdk-aws-connect-lib.ContactFlowType.CUSTOMER_QUEUE"></a>
 
 ---
 
 
-##### `CUSTOMER_WHISPER` <a name="CUSTOMER_WHISPER" id="aws-cdk-aws-connect-lib.FlowType.CUSTOMER_WHISPER"></a>
+##### `CUSTOMER_HOLD` <a name="CUSTOMER_HOLD" id="aws-cdk-aws-connect-lib.ContactFlowType.CUSTOMER_HOLD"></a>
 
 ---
 
 
-##### `AGENT_HOLD` <a name="AGENT_HOLD" id="aws-cdk-aws-connect-lib.FlowType.AGENT_HOLD"></a>
+##### `CUSTOMER_WHISPER` <a name="CUSTOMER_WHISPER" id="aws-cdk-aws-connect-lib.ContactFlowType.CUSTOMER_WHISPER"></a>
 
 ---
 
 
-##### `AGENT_WHISPER` <a name="AGENT_WHISPER" id="aws-cdk-aws-connect-lib.FlowType.AGENT_WHISPER"></a>
+##### `AGENT_HOLD` <a name="AGENT_HOLD" id="aws-cdk-aws-connect-lib.ContactFlowType.AGENT_HOLD"></a>
 
 ---
 
 
-##### `OUTBOUND_WHISPER` <a name="OUTBOUND_WHISPER" id="aws-cdk-aws-connect-lib.FlowType.OUTBOUND_WHISPER"></a>
+##### `AGENT_WHISPER` <a name="AGENT_WHISPER" id="aws-cdk-aws-connect-lib.ContactFlowType.AGENT_WHISPER"></a>
 
 ---
 
 
-##### `AGENT_TRANSFER` <a name="AGENT_TRANSFER" id="aws-cdk-aws-connect-lib.FlowType.AGENT_TRANSFER"></a>
+##### `OUTBOUND_WHISPER` <a name="OUTBOUND_WHISPER" id="aws-cdk-aws-connect-lib.ContactFlowType.OUTBOUND_WHISPER"></a>
 
 ---
 
 
-##### `QUEUE_TRANSFER` <a name="QUEUE_TRANSFER" id="aws-cdk-aws-connect-lib.FlowType.QUEUE_TRANSFER"></a>
+##### `AGENT_TRANSFER` <a name="AGENT_TRANSFER" id="aws-cdk-aws-connect-lib.ContactFlowType.AGENT_TRANSFER"></a>
 
 ---
 
 
-##### `CAMPAIGN` <a name="CAMPAIGN" id="aws-cdk-aws-connect-lib.FlowType.CAMPAIGN"></a>
+##### `QUEUE_TRANSFER` <a name="QUEUE_TRANSFER" id="aws-cdk-aws-connect-lib.ContactFlowType.QUEUE_TRANSFER"></a>
+
+---
+
+
+##### `CAMPAIGN` <a name="CAMPAIGN" id="aws-cdk-aws-connect-lib.ContactFlowType.CAMPAIGN"></a>
 
 ---
 
