@@ -7,10 +7,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   cdkVersion: '2.233.0',
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.9.0',
-  name: 'aws-connect-lib',
+  name: 'aws-cdk-aws-connect-lib',
   majorVersion: 0,
   projenrcTs: true,
-  repositoryUrl: 'https://github.com/netforbpo/aws-connect-lib.git',
+  repositoryUrl: 'https://github.com/netforbpo/aws-cdk-aws-connect-lib.git',
   packageManager: javascript.NodePackageManager.YARN_BERRY,
   yarnBerryOptions: {
     yarnRcOptions: {
@@ -18,8 +18,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     },
   },
   publishToPypi: {
-    distName: 'aws-connect-lib',
-    module: 'aws_connect_lib',
+    distName: 'aws-cdk-aws-connect-lib',
+    module: 'aws_cdk_connect_lib',
     twineRegistryUrl: 'http://pyoci.test:9000/ghcr.io/netforbpo/',
   },
   stability: 'experimental',
