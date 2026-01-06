@@ -1,6 +1,8 @@
 import {
   Annotations,
   aws_connect as connect,
+  aws_lambda as lambda,
+  aws_lex as lex,
   ContextProvider,
   IResource,
   Resource,
@@ -132,6 +134,8 @@ export interface IInstance extends IResource {
    * The instance name.  May not always be available
    */
   readonly instanceName?: string;
+
+  addStorageConfig(config: StorageConfig): void;
 }
 
 export interface InstanceLookupOptions {
@@ -149,7 +153,44 @@ export interface InstanceLookupOptions {
   readonly instanceArn?: string;
 }
 
-class LookedUpInstance extends Resource implements IInstance {
+abstract class InstanceBase extends Resource implements IInstance {
+  public abstract readonly instanceArn: string;
+  public abstract readonly instanceId: string;
+  public abstract readonly instanceName?: string;
+
+  private storageResourceTypes: Set<StorageResourceType> = new Set();
+
+  addStorageConfig(config: StorageConfig) {
+    if (this.storageResourceTypes.has(config.resourceType)) {
+      Annotations.of(this).addError(`Duplicate resourceType ${config.resourceType} in storageConfig`);
+      return;
+    }
+    if (!config.checkConfig()) {
+      Annotations.of(this).addError(`Invalid storage configuration for resourceType ${config.resourceType} and storageType ${config.storageType}`);
+      return;
+    }
+    this.storageResourceTypes.add(config.resourceType);
+    new connect.CfnInstanceStorageConfig(this, `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
+  }
+
+  associateFunction(func: lambda.IFunction) {
+    new connect.CfnIntegrationAssociation(this, `IntegrationAssociation-${func.functionName}`, {
+      instanceId: this.instanceArn,
+      integrationType: 'LAMBDA',
+      integrationArn: func.functionArn,
+    });
+  }
+
+  associateLexBot(bot: lex.IBotAliasRef, id: string | undefined = undefined) {
+    new connect.CfnIntegrationAssociation(this, id || `AssociatedLexBot-${bot.botAliasRef.botAliasId}`, {
+      instanceId: this.instanceArn,
+      integrationType: 'LEX_BOT',
+      integrationArn: bot.botAliasRef.botAliasArn,
+    });
+  }
+}
+
+class LookedUpInstance extends InstanceBase {
   public readonly instanceId: string;
   public readonly instanceArn: string;
   public readonly instanceName: string;
@@ -173,7 +214,7 @@ const DUMMY_INSTANCE_PROPS = {
   instanceId: 'instance-12345',
 };
 
-export class Instance extends Resource implements IInstance {
+export class Instance extends InstanceBase {
   public static fromLookup(scope: Construct, id: string, options: InstanceLookupOptions): IInstance {
     if (Token.isUnresolved(options.instanceId)
         || Token.isUnresolved(options.instanceName)
@@ -219,7 +260,7 @@ export class Instance extends Resource implements IInstance {
   }
 
   readonly instance: connect.CfnInstance;
-  private storageResourceTypes: Set<StorageResourceType> = new Set();
+  readonly instanceName?: string;
 
   constructor(scope: Construct, id: string, props: InstanceProps) {
     super(scope, id);
@@ -237,6 +278,7 @@ export class Instance extends Resource implements IInstance {
       Annotations.of(this).addError('instanceAlias is required when identityType is set to CONNECT_MANAGED or SAML');
     }
 
+    this.instanceName = props.instanceAlias;
     this.instance = new connect.CfnInstance(this, 'Instance', {
       attributes,
       identityManagementType: props.identityType,
@@ -256,22 +298,5 @@ export class Instance extends Resource implements IInstance {
 
   get instanceId(): string {
     return this.instance.ref;
-  }
-
-  hasStorageResourceType(resourceType: StorageResourceType): boolean {
-    return this.storageResourceTypes.has(resourceType);
-  }
-
-  addStorageConfig(config: StorageConfig) {
-    if (this.storageResourceTypes.has(config.resourceType)) {
-      Annotations.of(this).addError(`Duplicate resourceType ${config.resourceType} in storageConfig`);
-      return;
-    }
-    if (!config.checkConfig()) {
-      Annotations.of(this).addError(`Invalid storage configuration for resourceType ${config.resourceType} and storageType ${config.storageType}`);
-      return;
-    }
-    this.storageResourceTypes.add(config.resourceType);
-    new connect.CfnInstanceStorageConfig(this, `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
   }
 }

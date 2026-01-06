@@ -39,7 +39,7 @@ describe('Connect lookup instance', () => {
   set('template', () => Template.fromStack(stack));
 
   it('looks up an existing instance', () => {
-    const obj = Instance.fromLookup(stack, 'existing-instance', {
+    Instance.fromLookup(stack, 'existing-instance', {
       instanceName: 'netfor-poc',
     });
 
