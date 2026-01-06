@@ -1603,33 +1603,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-cdk-lib@npm:2.233.0":
-  version: 2.233.0
-  resolution: "aws-cdk-lib@npm:2.233.0"
-  dependencies:
-    "@aws-cdk/asset-awscli-v1": "npm:2.2.242"
-    "@aws-cdk/asset-node-proxy-agent-v6": "npm:^2.1.0"
-    "@aws-cdk/cloud-assembly-schema": "npm:^48.20.0"
-    "@balena/dockerignore": "npm:^1.0.2"
-    case: "npm:1.6.3"
-    fs-extra: "npm:^11.3.2"
-    ignore: "npm:^5.3.2"
-    jsonschema: "npm:^1.5.0"
-    mime-types: "npm:^2.1.35"
-    minimatch: "npm:^3.1.2"
-    punycode: "npm:^2.3.1"
-    semver: "npm:^7.7.3"
-    table: "npm:^6.9.0"
-    yaml: "npm:1.10.2"
-  peerDependencies:
-    constructs: ^10.0.0
-  checksum: 10c0/ed970acc3ff6e057ae678f2a7509b8a06083bc73166f96f6f88c30d42986891ac11c9598615f3d85c7d82fb224348dc03a1410ab8b634123ab52b9d32fe9a2aa
-  languageName: node
-  linkType: hard
-
-"aws-connect-lib@workspace:.":
+"aws-cdk-aws-connect-lib@workspace:.":
   version: 0.0.0-use.local
-  resolution: "aws-connect-lib@workspace:."
+  resolution: "aws-cdk-aws-connect-lib@workspace:."
   dependencies:
     "@nikovirtala/projen-vitest": "patch:@nikovirtala/projen-vitest@npm%3A2.1.33#~/.yarn/patches/@nikovirtala-projen-vitest-npm-2.1.33-4935219e07.patch"
     "@stylistic/eslint-plugin": "npm:^2"
@@ -1658,6 +1634,30 @@ __metadata:
     constructs: ^10.0.5
   languageName: unknown
   linkType: soft
+
+"aws-cdk-lib@npm:2.233.0":
+  version: 2.233.0
+  resolution: "aws-cdk-lib@npm:2.233.0"
+  dependencies:
+    "@aws-cdk/asset-awscli-v1": "npm:2.2.242"
+    "@aws-cdk/asset-node-proxy-agent-v6": "npm:^2.1.0"
+    "@aws-cdk/cloud-assembly-schema": "npm:^48.20.0"
+    "@balena/dockerignore": "npm:^1.0.2"
+    case: "npm:1.6.3"
+    fs-extra: "npm:^11.3.2"
+    ignore: "npm:^5.3.2"
+    jsonschema: "npm:^1.5.0"
+    mime-types: "npm:^2.1.35"
+    minimatch: "npm:^3.1.2"
+    punycode: "npm:^2.3.1"
+    semver: "npm:^7.7.3"
+    table: "npm:^6.9.0"
+    yaml: "npm:1.10.2"
+  peerDependencies:
+    constructs: ^10.0.0
+  checksum: 10c0/ed970acc3ff6e057ae678f2a7509b8a06083bc73166f96f6f88c30d42986891ac11c9598615f3d85c7d82fb224348dc03a1410ab8b634123ab52b9d32fe9a2aa
+  languageName: node
+  linkType: hard
 
 "balanced-match@npm:^1.0.0":
   version: 1.0.2

@@ -1,8 +1,8 @@
 {
-  "name": "aws-connect-lib",
+  "name": "aws-cdk-aws-connect-lib",
   "repository": {
     "type": "git",
-    "url": "https://github.com/netforbpo/aws-connect-lib.git"
+    "url": "https://github.com/netforbpo/aws-cdk-aws-connect-lib.git"
   },
   "scripts": {
     "build": "npx projen build",
@@ -19,14 +19,13 @@
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
-    "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
+    "publish:git": "npx projen publish:git",
     "release": "npx projen release",
     "test": "npx projen test",
     "test:update": "npx projen test:update",
     "test:watch": "npx projen test:watch",
     "unbump": "npx projen unbump",
-    "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
     "projen": "npx projen"
   },
@@ -79,8 +78,8 @@
     "outdir": "dist",
     "targets": {
       "python": {
-        "distName": "aws-connect-lib",
-        "module": "aws_connect_lib"
+        "distName": "aws-cdk-aws-connect-lib",
+        "module": "aws_cdk_connect_lib"
       }
     },
     "tsc": {

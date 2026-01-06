@@ -1,5 +1,5 @@
 import { Vitest } from '@nikovirtala/projen-vitest';
-import { awscdk, javascript } from 'projen';
+import { awscdk, javascript, release } from 'projen';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Edward Rudd',
@@ -22,6 +22,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     module: 'aws_cdk_connect_lib',
     twineRegistryUrl: 'http://pyoci.test:9000/ghcr.io/netforbpo/',
   },
+  depsUpgrade: false,
+  releaseTrigger: release.ReleaseTrigger.manual(),
   stability: 'experimental',
   devDeps: [
     '@nikovirtala/projen-vitest',
