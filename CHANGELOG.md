@@ -1,4 +1,11 @@
 
+## [0.1.2](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.1.1...v0.1.2) (2026-01-06)
+
+
+### Features
+
+* add in contact flow module class ([9f76e5c](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/9f76e5c9a1b4468063f4161c6cd6d3c1c086d2df))
+
 ## [0.1.1](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.1.0...v0.1.1) (2026-01-06)
 
 
