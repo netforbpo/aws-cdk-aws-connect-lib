@@ -10,3 +10,4 @@ export * from './hierarchy_group';
 export * from './user';
 export * from './routing_profile';
 export * from './security_profile';
+export * from './storage_config';

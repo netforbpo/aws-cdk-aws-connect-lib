@@ -109,8 +109,10 @@ describe('Connect Instance', () => {
     describe('with valid storage config', () => {
       set('storageConfigs', () => [
         StorageConfig.buildS3(StorageResourceType.CHAT_TRANSCRIPTS,
-          s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket', 'chat-transcripts-bucket'),
-          'chat-transcripts'),
+          {
+            bucket: s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket', 'chat-transcripts-bucket'),
+            prefix: 'chat-transcripts',
+          }),
       ]);
 
       it('registers the storage config', () => {
@@ -128,8 +130,10 @@ describe('Connect Instance', () => {
     describe('with invalid storage config', () => {
       set('storageConfigs', () => [
         StorageConfig.buildS3(StorageResourceType.AGENT_EVENTS,
-          s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket', 'chat-transcripts-bucket'),
-          'chat-transcripts'),
+          {
+            bucket: s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket', 'chat-transcripts-bucket'),
+            prefix: 'chat-transcripts',
+          }),
       ]);
 
       it('sets an annotation', () => {
@@ -141,11 +145,15 @@ describe('Connect Instance', () => {
     describe('with duplicate resource type', () => {
       set('storageConfigs', () => [
         StorageConfig.buildS3(StorageResourceType.CHAT_TRANSCRIPTS,
-          s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket', 'chat-transcripts-bucket'),
-          'chat-transcripts'),
+          {
+            bucket: s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket', 'chat-transcripts-bucket'),
+            prefix: 'chat-transcripts',
+          }),
         StorageConfig.buildS3(StorageResourceType.CHAT_TRANSCRIPTS,
-          s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket-alt', 'chat-transcripts-bucket-alt'),
-          'chat-transcripts'),
+          {
+            bucket: s3.Bucket.fromBucketName(stack, 'chat-transcripts-bucket-alt', 'chat-transcripts-bucket-alt'),
+            prefix: 'chat-transcripts',
+          }),
       ]);
 
       it('sets an annotation', () => {
