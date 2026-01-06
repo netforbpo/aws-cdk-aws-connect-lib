@@ -20,6 +20,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   publishToPypi: {
     distName: 'aws-connect-lib',
     module: 'aws_connect_lib',
+    twineRegistryUrl: 'http://pyoci.test:9000/ghcr.io/netforbpo/',
   },
   stability: 'experimental',
   devDeps: [
