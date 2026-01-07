@@ -14,8 +14,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   repositoryUrl: 'https://github.com/netforbpo/aws-cdk-aws-connect-lib.git',
   packageManager: javascript.NodePackageManager.YARN_BERRY,
   yarnBerryOptions: {
+    version: '1.22.22',
     yarnRcOptions: {
       nodeLinker: javascript.YarnNodeLinker.NODE_MODULES,
+      yarnPath: '.yarn/releases/yarn-4.4.1.cjs',
     },
   },
   docgen: false,
