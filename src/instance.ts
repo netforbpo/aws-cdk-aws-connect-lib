@@ -180,7 +180,7 @@ abstract class InstanceBase extends Resource implements IInstance {
   associateFunction(func: lambda.IFunction, id: string | undefined = undefined) {
     new connect.CfnIntegrationAssociation(this, id || `IntegrationAssociation-${func.functionName}`, {
       instanceId: this.instanceArn,
-      integrationType: 'LAMBDA',
+      integrationType: 'LAMBDA_FUNCTION',
       integrationArn: func.functionArn,
     });
   }
