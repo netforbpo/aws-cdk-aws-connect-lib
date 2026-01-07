@@ -35,6 +35,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jest: false,
 });
 
+project.package.addField('publishConfig', {
+  access: 'public',
+});
+
 new Vitest(project, {
   extraConfig: {
     expect: {
