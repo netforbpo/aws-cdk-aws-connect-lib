@@ -135,7 +135,11 @@ export interface IInstance extends IResource {
    */
   readonly instanceName?: string;
 
-  addStorageConfig(config: StorageConfig): void;
+  addStorageConfig(config: StorageConfig, id: string | undefined): void;
+
+  associateFunction(func: lambda.IFunction, id: string | undefined): void;
+
+  associateLexBot(bot: lex.IBotAliasRef, id: string | undefined): void;
 }
 
 export interface InstanceLookupOptions {
@@ -160,7 +164,7 @@ abstract class InstanceBase extends Resource implements IInstance {
 
   private storageResourceTypes: Set<StorageResourceType> = new Set();
 
-  addStorageConfig(config: StorageConfig) {
+  addStorageConfig(config: StorageConfig, id: string | undefined = undefined) {
     if (this.storageResourceTypes.has(config.resourceType)) {
       Annotations.of(this).addError(`Duplicate resourceType ${config.resourceType} in storageConfig`);
       return;
@@ -170,11 +174,11 @@ abstract class InstanceBase extends Resource implements IInstance {
       return;
     }
     this.storageResourceTypes.add(config.resourceType);
-    new connect.CfnInstanceStorageConfig(this, `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
+    new connect.CfnInstanceStorageConfig(this, id || `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
   }
 
-  associateFunction(func: lambda.IFunction) {
-    new connect.CfnIntegrationAssociation(this, `IntegrationAssociation-${func.functionName}`, {
+  associateFunction(func: lambda.IFunction, id: string | undefined = undefined) {
+    new connect.CfnIntegrationAssociation(this, id || `IntegrationAssociation-${func.functionName}`, {
       instanceId: this.instanceArn,
       integrationType: 'LAMBDA',
       integrationArn: func.functionArn,
