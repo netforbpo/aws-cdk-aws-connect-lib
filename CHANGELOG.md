@@ -1,4 +1,11 @@
 
+## 0.0.0 (2026-01-07)
+
+
+### Features
+
+* add in initial base implementation of L2 constructs ([09ccd8d](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/09ccd8d8ecfe120aad10dade5d74a65a00dc9985))
+
 ## [0.1.2](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.1.1...v0.1.2) (2026-01-06)
 
 
