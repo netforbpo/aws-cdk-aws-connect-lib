@@ -2,12 +2,13 @@ import { Vitest } from '@nikovirtala/projen-vitest';
 import { awscdk, javascript, release } from 'projen';
 
 const project = new awscdk.AwsCdkConstructLibrary({
-  author: 'Edward Rudd',
-  authorAddress: 'edward.rudd@netfor.com',
+  author: 'netforbpo',
+  authorOrganization: true,
+  authorAddress: 'https://github.com/netforbpo',
   cdkVersion: '2.233.0',
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.9.0',
-  name: 'aws-cdk-aws-connect-lib',
+  name: '@netforbpo/aws-cdk-aws-connect-lib',
   majorVersion: 0,
   projenrcTs: true,
   repositoryUrl: 'https://github.com/netforbpo/aws-cdk-aws-connect-lib.git',
@@ -17,10 +18,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
       nodeLinker: javascript.YarnNodeLinker.NODE_MODULES,
     },
   },
+  docgen: false,
   publishToPypi: {
-    distName: 'aws-cdk-aws-connect-lib',
+    distName: 'netforbpo-aws-cdk-aws-connect-lib',
     module: 'aws_cdk_connect_lib',
-    twineRegistryUrl: 'http://pyoci.test:9000/ghcr.io/netforbpo/',
   },
   depsUpgrade: false,
   releaseTrigger: release.ReleaseTrigger.manual(),

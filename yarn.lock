@@ -529,7 +529,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jsii/spec@npm:1.122.0, @jsii/spec@npm:^1.121.0, @jsii/spec@npm:^1.122.0":
+"@jsii/spec@npm:1.122.0, @jsii/spec@npm:^1.121.0":
   version: 1.122.0
   resolution: "@jsii/spec@npm:1.122.0"
   dependencies:
@@ -548,6 +548,37 @@ __metadata:
   checksum: 10c0/6d07922c0613aab30c6a497f4df297ca7c54e5b480e00035e0209b872d5c6aab7162fc49477267556109c2c7ed1eb9c65a174e27e9b87568106a87b0a6e3ca7d
   languageName: node
   linkType: hard
+
+"@netforbpo/aws-cdk-aws-connect-lib@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@netforbpo/aws-cdk-aws-connect-lib@workspace:."
+  dependencies:
+    "@nikovirtala/projen-vitest": "patch:@nikovirtala/projen-vitest@npm%3A2.1.33#~/.yarn/patches/@nikovirtala-projen-vitest-npm-2.1.33-4935219e07.patch"
+    "@stylistic/eslint-plugin": "npm:^2"
+    "@types/node": "npm:^25.0.3"
+    "@typescript-eslint/eslint-plugin": "npm:^8"
+    "@typescript-eslint/parser": "npm:^8"
+    "@vitest/coverage-v8": "npm:^4"
+    aws-cdk-lib: "npm:2.233.0"
+    commit-and-tag-version: "npm:^12"
+    constructs: "npm:10.0.5"
+    eslint: "npm:^9"
+    eslint-import-resolver-typescript: "npm:^4.4.4"
+    eslint-plugin-import: "npm:^2.32.0"
+    jsii: "npm:~5.9.0"
+    jsii-diff: "npm:^1.122.0"
+    jsii-pacmak: "npm:^1.122.0"
+    jsii-rosetta: "npm:~5.9.0"
+    projen: "npm:^0.98.30"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.9.3"
+    vitest: "npm:^4"
+    vitest-plugin-set: "npm:^1.0.0"
+  peerDependencies:
+    aws-cdk-lib: ^2.233.0
+    constructs: ^10.0.5
+  languageName: unknown
+  linkType: soft
 
 "@nikovirtala/projen-vitest@npm:2.1.33":
   version: 2.1.33
@@ -1602,38 +1633,6 @@ __metadata:
   checksum: 10c0/d07226ef4f87daa01bd0fe80f8f310982e345f372926da2e5296aecc25c41cab440916bbaa4c5e1034b453af3392f67df5961124e4b586df1e99793a1374bdb2
   languageName: node
   linkType: hard
-
-"aws-cdk-aws-connect-lib@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "aws-cdk-aws-connect-lib@workspace:."
-  dependencies:
-    "@nikovirtala/projen-vitest": "patch:@nikovirtala/projen-vitest@npm%3A2.1.33#~/.yarn/patches/@nikovirtala-projen-vitest-npm-2.1.33-4935219e07.patch"
-    "@stylistic/eslint-plugin": "npm:^2"
-    "@types/node": "npm:^25.0.3"
-    "@typescript-eslint/eslint-plugin": "npm:^8"
-    "@typescript-eslint/parser": "npm:^8"
-    "@vitest/coverage-v8": "npm:^4"
-    aws-cdk-lib: "npm:2.233.0"
-    commit-and-tag-version: "npm:^12"
-    constructs: "npm:10.0.5"
-    eslint: "npm:^9"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-import: "npm:^2.32.0"
-    jsii: "npm:~5.9.0"
-    jsii-diff: "npm:^1.122.0"
-    jsii-docgen: "npm:^10.5.0"
-    jsii-pacmak: "npm:^1.122.0"
-    jsii-rosetta: "npm:~5.9.0"
-    projen: "npm:^0.98.30"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.9.3"
-    vitest: "npm:^4"
-    vitest-plugin-set: "npm:^1.0.0"
-  peerDependencies:
-    aws-cdk-lib: ^2.233.0
-    constructs: ^10.0.5
-  languageName: unknown
-  linkType: soft
 
 "aws-cdk-lib@npm:2.233.0":
   version: 2.233.0
@@ -4052,26 +4051,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsii-docgen@npm:^10.5.0":
-  version: 10.11.9
-  resolution: "jsii-docgen@npm:10.11.9"
-  dependencies:
-    "@jsii/spec": "npm:^1.122.0"
-    case: "npm:^1.6.3"
-    fast-glob: "npm:^3.3.3"
-    fs-extra: "npm:^10.1.0"
-    jsii-reflect: "npm:^1.122.0"
-    json-stream-stringify: "npm:^3.1.6"
-    semver: "npm:^7.7.3"
-    yargs: "npm:^16.2.0"
-  peerDependencies:
-    jsii-rosetta: ^1.85.0 || ~5.0.14 || ~5.1.2 || ~5.2.0 || ~5.3.0 || ~5.4.0 || ~5.5.0 || ~5.6.0 || ~5.7.0 || ~5.8.0 || ~5.9.1
-  bin:
-    jsii-docgen: bin/jsii-docgen
-  checksum: 10c0/d1c4f95c3703ca66331c75015e9c9d8621f0c4ef881c3e937afaf180be2225ed348f834333167c16924ab73e20d7f4dbe45df1bb1d37eec914853eac7e434ad7
-  languageName: node
-  linkType: hard
-
 "jsii-pacmak@npm:^1.122.0":
   version: 1.122.0
   resolution: "jsii-pacmak@npm:1.122.0"
@@ -4204,13 +4183,6 @@ __metadata:
   version: 1.0.1
   resolution: "json-stable-stringify-without-jsonify@npm:1.0.1"
   checksum: 10c0/cb168b61fd4de83e58d09aaa6425ef71001bae30d260e2c57e7d09a5fd82223e2f22a042dedaab8db23b7d9ae46854b08bb1f91675a8be11c5cffebef5fb66a5
-  languageName: node
-  linkType: hard
-
-"json-stream-stringify@npm:^3.1.6":
-  version: 3.1.6
-  resolution: "json-stream-stringify@npm:3.1.6"
-  checksum: 10c0/cb45e65143f4634ebb2dc0732410a942eaf86f88a7938b2f6397f4c6b96a7ba936e74d4d17db48c9221f669153996362b2ff50fe8c7fed8a7548646f98ae1f58
   languageName: node
   linkType: hard
 

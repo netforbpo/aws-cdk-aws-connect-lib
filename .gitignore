@@ -51,7 +51,6 @@ jspm_packages/
 !/.eslintrc.json
 .jsii
 tsconfig.json
-!/API.md
 /coverage/
 !/vitest.config.ts
 !/.projenrc.ts
