@@ -33,6 +33,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jest: false,
 });
 
+project.npmignore?.exclude('/app/**');
+
 new Vitest(project, {
   extraConfig: {
     expect: {
