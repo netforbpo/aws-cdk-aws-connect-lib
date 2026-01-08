@@ -39,6 +39,8 @@ project.package.addField('publishConfig', {
   access: 'public',
 });
 
+project.package.addKeywords('aws', 'connect', 'aws-cdk');
+
 new Vitest(project, {
   extraConfig: {
     expect: {
