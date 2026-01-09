@@ -1,4 +1,21 @@
 
+## [0.2.0](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.1.0...v0.2.0) (2026-01-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* rework associateFunction and associateLexBot to work correctly with references
+
+### Features
+
+* add in extra keywords to the package.json ([9e06ed3](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/9e06ed38e50ce7dca86f2cb6fc7a207b892e5db3))
+* rework associateFunction and associateLexBot to work correctly with references ([b34b22a](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/b34b22a07fb1c7bc223f0003846f318bb780d525))
+
+
+### Bug Fixes
+
+* ensure package is declared public ([a44e2dd](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/a44e2dd982862337828050383da9338905a487da))
+
 ## 0.1.0 (2026-01-07)
 
 
