@@ -137,9 +137,9 @@ export interface IInstance extends IResource {
 
   addStorageConfig(config: StorageConfig, id: string | undefined): void;
 
-  associateFunction(func: lambda.IFunction, id: string | undefined): void;
+  associateLambdaFunction(id: string, func: lambda.IFunction): void;
 
-  associateLexBot(bot: lex.IBotAliasRef, id: string | undefined): void;
+  associateLexBot(id: string, bot: lex.IBotAliasRef): void;
 }
 
 export interface InstanceLookupOptions {
@@ -177,16 +177,16 @@ abstract class InstanceBase extends Resource implements IInstance {
     new connect.CfnInstanceStorageConfig(this, id || `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
   }
 
-  associateFunction(func: lambda.IFunction, id: string | undefined = undefined) {
-    new connect.CfnIntegrationAssociation(this, id || `IntegrationAssociation-${func.functionName}`, {
+  associateLambdaFunction(id: string, func: lambda.IFunction) {
+    new connect.CfnIntegrationAssociation(this, id, {
       instanceId: this.instanceArn,
       integrationType: 'LAMBDA_FUNCTION',
       integrationArn: func.functionArn,
     });
   }
 
-  associateLexBot(bot: lex.IBotAliasRef, id: string | undefined = undefined) {
-    new connect.CfnIntegrationAssociation(this, id || `AssociatedLexBot-${bot.botAliasRef.botAliasId}`, {
+  associateLexBot(id: string, bot: lex.IBotAliasRef) {
+    new connect.CfnIntegrationAssociation(this, id, {
       instanceId: this.instanceArn,
       integrationType: 'LEX_BOT',
       integrationArn: bot.botAliasRef.botAliasArn,

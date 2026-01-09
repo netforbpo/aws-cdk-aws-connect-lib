@@ -125,8 +125,8 @@ import aws_cdk_aws_connect_lib as connect
 # and to associate a Lex Bot or Lambda Function to the connect instance
 
 # Assuming self.lex_bot is a Lex Bot Alias
-self.instance.associate_lex_bot(self.lex_bot_alias)
+self.instance.associate_lex_bot('MyLexBot', self.lex_bot_alias)
 
 # Assuming self.lambda_function is a Lambda Function or lambda function alias
-self.instance.associate_function(self.lambda_function)
+self.instance.associate_lambda_function('MyLambda', self.lambda_function)
 ```
