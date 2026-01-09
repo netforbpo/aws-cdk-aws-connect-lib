@@ -1,4 +1,11 @@
 
+## [0.2.1](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.0...v0.2.1) (2026-01-09)
+
+
+### Features
+
+* ignore local env files when packaging ([1456696](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/1456696fa604fe609cd2e822b8bd6eb6ad6647d4))
+
 ## [0.2.0](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.1.0...v0.2.0) (2026-01-09)
 
 
