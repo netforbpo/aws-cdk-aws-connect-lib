@@ -35,6 +35,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jest: false,
 });
 
+project.addPackageIgnore('.env');
+
 project.package.addField('publishConfig', {
   access: 'public',
 });

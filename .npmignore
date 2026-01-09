@@ -19,6 +19,7 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
+.env
 /coverage/
 /.gitattributes
 /.projenrc.ts
