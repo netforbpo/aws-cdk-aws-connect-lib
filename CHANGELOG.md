@@ -1,4 +1,11 @@
 
+## [0.2.2](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.1...v0.2.2) (2026-01-13)
+
+
+### Features
+
+* add in custom attribute handling and retain policy handling ([00eaa2d](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/00eaa2d9fb228be1e8880c75153ea57e773a4675))
+
 ## [0.2.1](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.0...v0.2.1) (2026-01-09)
 
 
