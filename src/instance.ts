@@ -1,13 +1,17 @@
+import * as path from 'path';
 import {
   Annotations,
+  custom_resources as cr,
   aws_connect as connect,
   aws_lambda as lambda,
   aws_lex as lex,
-  ContextProvider,
-  IResource,
-  Resource,
+  aws_logs as logs,
+  aws_iam as iam,
+  ContextProvider, CustomResource, Duration,
+  IResource, RemovalPolicy,
+  Resource, ResourceProps,
   Token,
-  ValidationError,
+  ValidationError, Fn,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
 import { Construct } from 'constructs';
@@ -18,17 +22,6 @@ export enum IdentityManagementType {
   CONNECT_MANAGED = 'CONNECT_MANAGED',
   EXISTING_DIRECTORY = 'EXISTING_DIRECTORY',
 }
-
-/**
- * TODO missing attributes from CloudFormation
- *
- * AUTOMATED_INTERACTION_LOG
- * BOT_MANAGEMENT
- * ENABLE_BOT_ANALYTICS_AND_TRANSCRIPTS
- * FORECASTING_PLANNING_SCHEDULING
- * MAX_PACKAGE
- * MESSAGE_STREAMING
- */
 
 /**
  * All other config props
@@ -58,7 +51,7 @@ export interface OtherConfigProps {
 
 export interface TelephonyConfigProps {
   /**
-   * Whether early media is enabled
+   * Whether early media is enabled (EARLY_MEDIA)
    */
   readonly earlyMediaEnabled?: boolean;
   /**
@@ -116,9 +109,26 @@ export interface InstanceProps {
    */
   readonly otherConfig?: OtherConfigProps;
   /**
+   * Define any other instance attribute config here.
    *
+   * currently that list is the following:
+   *
+   * AUTOMATED_INTERACTION_LOG
+   * BOT_MANAGEMENT
+   * ENABLE_BOT_ANALYTICS_AND_TRANSCRIPTS
+   * FORECASTING_PLANNING_SCHEDULING
+   * MAX_PACKAGE
+   * MESSAGE_STREAMING
+   */
+  readonly customAttributes?: Record<string, boolean>;
+  /**
+   * Storage configurations (can also use addStorageConfig() to add configs later)
    */
   readonly storageConfigs?: StorageConfig[];
+  /**
+   * Set the removal policy for the instance. the default is RemovalPolicy.DESTROY.
+   */
+  readonly removalPolicy?: RemovalPolicy;
 }
 
 export interface IInstance extends IResource {
@@ -163,6 +173,12 @@ abstract class InstanceBase extends Resource implements IInstance {
   public abstract readonly instanceName?: string;
 
   private storageResourceTypes: Set<StorageResourceType> = new Set();
+  private readonly removalPolicy?: RemovalPolicy;
+
+  protected constructor(scope: Construct, id: string, props?: ResourceProps, removalPolicy?: RemovalPolicy) {
+    super(scope, id, props);
+    this.removalPolicy = removalPolicy;
+  }
 
   addStorageConfig(config: StorageConfig, id: string | undefined = undefined) {
     if (this.storageResourceTypes.has(config.resourceType)) {
@@ -174,7 +190,8 @@ abstract class InstanceBase extends Resource implements IInstance {
       return;
     }
     this.storageResourceTypes.add(config.resourceType);
-    new connect.CfnInstanceStorageConfig(this, id || `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
+    const storage = new connect.CfnInstanceStorageConfig(this, id || `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
+    storage.applyRemovalPolicy(config.removalPolicy, { default: this.removalPolicy || RemovalPolicy.DESTROY });
   }
 
   associateLambdaFunction(id: string, func: lambda.IFunction) {
@@ -267,7 +284,7 @@ export class Instance extends InstanceBase {
   readonly instanceName?: string;
 
   constructor(scope: Construct, id: string, props: InstanceProps) {
-    super(scope, id);
+    super(scope, id, undefined, props.removalPolicy);
 
     const attributes = {
       ...props.telephonyConfig,
@@ -288,12 +305,21 @@ export class Instance extends InstanceBase {
       identityManagementType: props.identityType,
       instanceAlias: props.instanceAlias,
     });
+    this.instance.applyRemovalPolicy(props.removalPolicy, { default: RemovalPolicy.DESTROY });
 
     if (props.storageConfigs) {
       for (const config of props.storageConfigs) {
         this.addStorageConfig(config);
       }
     }
+
+    if (props.customAttributes && Object.keys(props.customAttributes).length > 0) {
+      this.setupCustomAttributes(props.customAttributes);
+    }
+  }
+
+  private setupCustomAttributes(customAttributes: Record<string, boolean>) {
+    new UpdateInstanceAttributes(this, 'UpdateCustomAttributes', this, customAttributes);
   }
 
   get instanceArn(): string {
@@ -302,5 +328,57 @@ export class Instance extends InstanceBase {
 
   get instanceId(): string {
     return this.instance.ref;
+  }
+}
+
+class UpdateInstanceAttributes extends Construct {
+  private static readonly CUSTOM_ATTRIBUTES_FUNCTION_UUID = 'cb2f6b5c-f0aa-11f0-ac10-5b484827145c';
+
+  constructor(scope: Construct, id: string, instance: IInstance, attributes: Record<string, boolean>) {
+    super(scope, id);
+
+    const setupFunc = new lambda.SingletonFunction(this, 'CustomAttributeFunc', {
+      uuid: UpdateInstanceAttributes.CUSTOM_ATTRIBUTES_FUNCTION_UUID,
+      lambdaPurpose: 'CustomAttributeSetup',
+      runtime: lambda.Runtime.PYTHON_3_12,
+      handler: 'app.on_event',
+      code: lambda.Code.fromAsset(path.join(__dirname, '..', 'lambdas', 'instance_attributes')),
+      timeout: Duration.minutes(5),
+    });
+
+    const group = new logs.LogGroup(this, 'CustomAttributeLogGroup', {
+      retention: logs.RetentionDays.ONE_DAY,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const provider = new cr.Provider(this, 'CustomAttributeProvider', {
+      onEventHandler: setupFunc,
+      logGroup: group,
+    });
+
+    setupFunc.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['connect:UpdateInstanceAttribute'],
+      resources: [instance.instanceArn],
+    }));
+    setupFunc.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'iam:DeleteRolePolicy',
+        'iam:PutRolePolicy',
+      ],
+      resources: [
+        Fn.sub('arn:${AWS::Partition}:iam::${AWS::AccountId}:role/aws-service-role/connect.amazonaws.com/*'),
+      ],
+    }));
+
+    new CustomResource(this, 'SetupCustomAttributes', {
+      resourceType: 'Custom::ConnectInstanceCustomAttributes',
+      serviceToken: provider.serviceToken,
+      properties: {
+        InstanceId: instance.instanceId,
+        CustomAttributes: attributes,
+      },
+    });
   }
 }

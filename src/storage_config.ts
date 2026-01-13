@@ -3,7 +3,7 @@ import {
   aws_kinesisfirehose as kinesisfirehose,
   aws_kms as kms,
   aws_connect as connect,
-  aws_s3 as s3,
+  aws_s3 as s3, RemovalPolicy,
 } from 'aws-cdk-lib';
 
 export enum StorageResourceType {
@@ -52,6 +52,10 @@ export interface StorageConfigKinesisVideoStream {
    * The default value is 0, indicating that the stream does not persist data.
    */
   readonly retentionPeriodHours?: number;
+  /**
+   * the removal policy. Default RemovalPolicy.DESTROY or what is set on the Instance (when created in this stack)
+   */
+  readonly removalPolicy?: RemovalPolicy;
 }
 
 export interface StorageConfigS3 {
@@ -67,14 +71,26 @@ export interface StorageConfigS3 {
    * The optional encryption configuration.
    */
   readonly encryptionConfig?: StorageEncryptionConfig;
+  /**
+   * the removal policy. Default RemovalPolicy.DESTROY or what is set on the Instance (when created in this stack)
+   */
+  readonly removalPolicy?: RemovalPolicy;
 }
 
 export interface StorageConfigKinesisStream {
   readonly stream: kinesis.IStream;
+  /**
+   * the removal policy. Default RemovalPolicy.DESTROY or what is set on the Instance (when created in this stack)
+   */
+  readonly removalPolicy?: RemovalPolicy;
 }
 
 export interface StorageConfigKinesisFirehose {
   readonly firehose: kinesisfirehose.IDeliveryStream;
+  /**
+   * the removal policy. Default RemovalPolicy.DESTROY or what is set on the Instance (when created in this stack)
+   */
+  readonly removalPolicy?: RemovalPolicy;
 }
 
 export class StorageConfig {
@@ -83,6 +99,7 @@ export class StorageConfig {
       resourceType,
       storageType: StorageConfigType.S3_BUCKET,
       s3Config: props,
+      removalPolicy: props.removalPolicy,
     });
   }
 
@@ -94,6 +111,7 @@ export class StorageConfig {
       resourceType,
       storageType: StorageConfigType.KINESIS_VIDEO_STREAM,
       kinesisVideoStreamConfig: props,
+      removalPolicy: props.removalPolicy,
     });
   }
 
@@ -102,6 +120,7 @@ export class StorageConfig {
       resourceType,
       storageType: StorageConfigType.KINESIS_STREAM,
       kinesisStream: props.stream,
+      removalPolicy: props.removalPolicy,
     });
   }
 
@@ -110,6 +129,7 @@ export class StorageConfig {
       resourceType,
       storageType: StorageConfigType.KINESIS_FIREHOSE,
       kinesisFirehose: props.firehose,
+      removalPolicy: props.removalPolicy,
     });
   }
 
@@ -137,6 +157,7 @@ export class StorageConfig {
   readonly kinesisStream?: kinesis.IStream;
   readonly kinesisVideoStreamConfig?: StorageConfigKinesisVideoStream;
   readonly s3Config?: StorageConfigS3;
+  readonly removalPolicy?: RemovalPolicy;
 
 
   private constructor({
@@ -146,6 +167,7 @@ export class StorageConfig {
     kinesisStream,
     kinesisVideoStreamConfig,
     s3Config,
+    removalPolicy,
   }: {
     resourceType: StorageResourceType;
     kinesisFirehose?: kinesisfirehose.IDeliveryStream;
@@ -153,6 +175,7 @@ export class StorageConfig {
     kinesisVideoStreamConfig?: StorageConfigKinesisVideoStream;
     storageType: StorageConfigType;
     s3Config?: StorageConfigS3;
+    removalPolicy?: RemovalPolicy;
   }) {
     this.resourceType = resourceType;
     this.storageType = storageType;
@@ -160,6 +183,7 @@ export class StorageConfig {
     this.kinesisStream = kinesisStream;
     this.kinesisVideoStreamConfig = kinesisVideoStreamConfig;
     this.s3Config = s3Config;
+    this.removalPolicy = removalPolicy;
   }
 
   checkConfig(): boolean {
