@@ -20,7 +20,7 @@ export enum StorageEncryptionType {
 }
 
 export enum StorageConfigType {
-  S3_BUCKET = 'S3_BUCKET',
+  S3 = 'S3',
   KINESIS_VIDEO_STREAM = 'KINESIS_VIDEO_STREAM',
   KINESIS_STREAM = 'KINESIS_STREAM',
   KINESIS_FIREHOSE = 'KINESIS_FIREHOSE',
@@ -97,7 +97,7 @@ export class StorageConfig {
   static buildS3(resourceType: StorageResourceType, props: StorageConfigS3) {
     return new StorageConfig({
       resourceType,
-      storageType: StorageConfigType.S3_BUCKET,
+      storageType: StorageConfigType.S3,
       s3Config: props,
       removalPolicy: props.removalPolicy,
     });
@@ -134,7 +134,7 @@ export class StorageConfig {
   }
 
   private static readonly VALID_RESOURCES = {
-    [StorageConfigType.S3_BUCKET]: [
+    [StorageConfigType.S3]: [
       StorageResourceType.CHAT_TRANSCRIPTS,
       StorageResourceType.CALL_RECORDINGS,
       StorageResourceType.SCHEDULED_REPORTS,
@@ -198,7 +198,7 @@ export class StorageConfig {
       storageType: this.storageType,
     };
     switch (this.storageType) {
-      case StorageConfigType.S3_BUCKET:
+      case StorageConfigType.S3:
         props.s3Config = {
           bucketName: this.s3Config?.bucket.bucketName,
           bucketPrefix: this.s3Config?.prefix,

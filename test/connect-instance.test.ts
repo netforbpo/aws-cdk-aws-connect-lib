@@ -118,7 +118,7 @@ describe('Connect Instance', () => {
       it('registers the storage config', () => {
         expect(template).hasResourceProperties('AWS::Connect::InstanceStorageConfig', {
           ResourceType: StorageResourceType.CHAT_TRANSCRIPTS,
-          StorageType: StorageConfigType.S3_BUCKET,
+          StorageType: StorageConfigType.S3,
           S3Config: {
             BucketName: 'chat-transcripts-bucket',
             BucketPrefix: 'chat-transcripts',
@@ -138,7 +138,7 @@ describe('Connect Instance', () => {
 
       it('sets an annotation', () => {
         expect(template).not.hasResourceProperties('AWS::Connect::InstanceStorageConfig');
-        expect(annotations).hasError('*', `Invalid storage configuration for resourceType ${StorageResourceType.AGENT_EVENTS} and storageType ${StorageConfigType.S3_BUCKET}`);
+        expect(annotations).hasError('*', `Invalid storage configuration for resourceType ${StorageResourceType.AGENT_EVENTS} and storageType ${StorageConfigType.S3}`);
       });
     });
 
