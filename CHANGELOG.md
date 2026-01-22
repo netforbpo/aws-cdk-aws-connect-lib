@@ -1,4 +1,11 @@
 
+## [0.2.3](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.2...v0.2.3) (2026-01-22)
+
+
+### Bug Fixes
+
+* correct storage type for S3 bucket (it is just S3) ([45c51cc](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/45c51cc3d9e3ef8a75df032c30ea4d9999ccd59a))
+
 ## [0.2.2](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.1...v0.2.2) (2026-01-13)
 
 
