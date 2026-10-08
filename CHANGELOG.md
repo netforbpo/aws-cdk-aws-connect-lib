@@ -1,4 +1,10 @@
 
+## [0.2.4](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.3...v0.2.4) (2026-10-08)
+
+### Features
+
+* implement fromLookup for more resources and update to newer CDK with more CloudFormation functionality. ([537750f](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/537750fc57dca33fc71fd473354385849822ce8e))
+
 ## [0.2.3](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.2...v0.2.3) (2026-01-22)
 
 
