@@ -3,6 +3,7 @@ import {
   IResource,
   Resource,
 } from 'aws-cdk-lib';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { IInstance } from './instance';
 import { ITrafficDistributionGroup } from './traffic_distribution_group';
@@ -52,10 +53,12 @@ export interface PhoneNumberProps {
 }
 
 export class PhoneNumber extends Resource implements IPhoneNumber {
-  readonly phoneNumber: connect.CfnPhoneNumber;
+  private readonly resource: connect.CfnPhoneNumber;
 
   constructor(scope: Construct, id: string, props: PhoneNumberProps) {
     super(scope, id);
+
+    addConstructMetadata(this, props);
 
     let targetArn;
     if ('instanceArn' in props.target) {
@@ -66,7 +69,7 @@ export class PhoneNumber extends Resource implements IPhoneNumber {
       throw new Error('Invalid target');
     }
 
-    this.phoneNumber = new connect.CfnPhoneNumber(this, 'PhoneNumber', {
+    this.resource = new connect.CfnPhoneNumber(this, 'PhoneNumber', {
       targetArn,
       description: props.description,
       countryCode: props.countryCode,
@@ -77,6 +80,6 @@ export class PhoneNumber extends Resource implements IPhoneNumber {
   }
 
   get phoneNumberArn() {
-    return this.phoneNumber.attrPhoneNumberArn;
+    return this.resource.attrPhoneNumberArn;
   }
 }

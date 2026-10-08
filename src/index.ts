@@ -1,3 +1,4 @@
+export * from './types';
 export * from './instance';
 export * from './contact_flow';
 export * from './contact_flow_module';

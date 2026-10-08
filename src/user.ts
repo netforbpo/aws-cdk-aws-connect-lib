@@ -4,6 +4,8 @@ import {
   Resource, Token, ValidationError,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
+import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { IHierarchyGroup } from './hierarchy_group';
 import { IInstance } from './instance';
@@ -77,17 +79,17 @@ export interface UserLookupOptions {
 
 export class User extends Resource implements IUser {
   public static fromLookup(scope: Construct, id: string, options: UserLookupOptions): IUser {
-    throw new Error('Not implemented (CcApiContextProvider lacking features - PR #1015)');
-
     if (Token.isUnresolved(options.username)
         || Token.isUnresolved(options.instanceArn)
         || Token.isUnresolved(options.userArn)) {
-      throw new ValidationError('All arguments to User.fromLookup() must be concrete (no Tokens)', scope);
+      throw new ValidationError(lit`Arguments`, 'All arguments to User.fromLookup() must be concrete (no Tokens)', scope);
     }
 
     const filter: any = {};
 
-    filter.resourceModel.InstanceArn = options.instanceArn;
+    filter.resourceModel = {
+      InstanceArn: options.instanceArn,
+    };
     if (options.userArn) {
       filter.exactIdentifier = options.userArn;
     }
@@ -110,7 +112,7 @@ export class User extends Resource implements IUser {
     let instance = undefined;
     if (response && response[0]) {
       instance = {
-        instanceArn: response[0].options.instanceArn,
+        instanceArn: options.instanceArn,
         userArn: response[0].UserArn,
         username: response[0].Name,
       };
@@ -118,12 +120,14 @@ export class User extends Resource implements IUser {
     return new LookedUpUser(scope, id, instance ?? DUMMY_USER_PROPS, instance === undefined);
   }
 
-  public readonly user: connect.CfnUser;
+  private readonly resource: connect.CfnUser;
 
   constructor(scope: Construct, id: string, props: UserProps) {
     super(scope, id);
 
-    this.user = new connect.CfnUser(this, 'User', {
+    addConstructMetadata(this, props);
+
+    this.resource = new connect.CfnUser(this, 'User', {
       instanceArn: props.instance.instanceArn,
       username: props.username,
       routingProfileArn: props.routingProfile.routingProfileArn,
@@ -154,7 +158,7 @@ export class User extends Resource implements IUser {
   }
 
   get userArn(): string {
-    return this.user.attrUserArn;
+    return this.resource.attrUserArn;
   }
 }
 
@@ -162,17 +166,18 @@ class LookedUpUser extends Resource implements IUser {
   public readonly userArn: string;
   public readonly instanceArn: string;
   public readonly username: string;
-  public readonly incompleteInstanceDefinition: boolean;
+  public readonly incompleteDefinition: boolean;
 
   constructor(scope: Construct, id: string, props: any, isIncomplete: boolean) {
     super(scope, id, {
       region: props.region,
       account: props.ownerAccountId,
     });
+    addConstructMetadata(this, props);
 
     this.instanceArn = props.instanceArn;
     this.userArn = props.userArn;
     this.username = props.username;
-    this.incompleteInstanceDefinition = isIncomplete;
+    this.incompleteDefinition = isIncomplete;
   }
 }

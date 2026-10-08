@@ -37,12 +37,12 @@ export interface EmailAddressProps {
 }
 
 export class EmailAddress extends Resource implements IEmailAddress {
-  public readonly emailAddress: connect.CfnEmailAddress;
+  private readonly resource: connect.CfnEmailAddress;
 
   constructor(scope: Construct, id: string, props: EmailAddressProps) {
     super(scope, id);
 
-    this.emailAddress = new connect.CfnEmailAddress(this, 'EmailAddress', {
+    this.resource = new connect.CfnEmailAddress(this, 'EmailAddress', {
       emailAddress: props.emailAddress,
       aliasConfigurations: props.aliases?.map(alias => ({ emailAddressArn: alias.emailAddressArn })),
       description: props.description,
@@ -52,7 +52,7 @@ export class EmailAddress extends Resource implements IEmailAddress {
   }
 
   get emailAddressArn(): string {
-    return this.emailAddress.attrEmailAddressArn;
+    return this.resource.attrEmailAddressArn;
   }
 }
 

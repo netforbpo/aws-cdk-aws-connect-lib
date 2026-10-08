@@ -3,6 +3,7 @@ import {
   IResource,
   Resource,
 } from 'aws-cdk-lib';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 
 import { IInstance } from './instance';
@@ -27,12 +28,14 @@ export interface TrafficDistributionGroupProps {
 }
 
 export class TrafficDistributionGroup extends Resource implements ITrafficDistributionGroup {
-  readonly trafficDistributionGroup: connect.CfnTrafficDistributionGroup;
+  private readonly resource: connect.CfnTrafficDistributionGroup;
 
   constructor(scope: Construct, id: string, props: TrafficDistributionGroupProps) {
     super(scope, id);
 
-    this.trafficDistributionGroup = new connect.CfnTrafficDistributionGroup(this, 'TrafficDistributionGroup', {
+    addConstructMetadata(this, props);
+
+    this.resource = new connect.CfnTrafficDistributionGroup(this, 'TrafficDistributionGroup', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.description,
@@ -40,6 +43,6 @@ export class TrafficDistributionGroup extends Resource implements ITrafficDistri
   }
 
   get trafficDistributionGroupArn(): string {
-    return this.trafficDistributionGroup.attrTrafficDistributionGroupArn;
+    return this.resource.attrTrafficDistributionGroupArn;
   }
 }

@@ -7,6 +7,8 @@ import {
   ValidationError,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
+import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { IInstance } from './index';
 
@@ -43,6 +45,7 @@ export interface ContactFlowProps {
   readonly type: ContactFlowType;
   readonly description?: string;
   readonly state?: ContactFlowState;
+  // TODO support a builder for this
   readonly content: string;
 }
 
@@ -54,12 +57,12 @@ export interface ContactFlowLookupOptions {
 
 export class ContactFlow extends Resource implements IContactFlow {
   public static fromLookup(scope: Construct, id: string, options: ContactFlowLookupOptions): IContactFlow {
-    throw new Error('Not implemented (Bad Amazon API)');
+    throw new Error('Not implemented (Bad Amazon API. Produces a security token invalid)');
 
     if (Token.isUnresolved(options.contactFlowName)
         || Token.isUnresolved(options.instanceArn)
         || Token.isUnresolved(options.contactFlowArn)) {
-      throw new ValidationError('All arguments to ContactFlow.fromLookup() must be concrete (no Tokens)', scope);
+      throw new ValidationError(lit`Arguments`, 'All arguments to ContactFlow.fromLookup() must be concrete (no Tokens)', scope);
     }
 
     const filter: any = {};
@@ -99,12 +102,14 @@ export class ContactFlow extends Resource implements IContactFlow {
     return new LookedUpContactFlow(scope, id, instance ?? DUMMY_CONTACT_FLOW_PROPS, instance === undefined);
   }
 
-  readonly flow: connect.CfnContactFlow;
+  private readonly resource: connect.CfnContactFlow;
 
   constructor(scope: Construct, id: string, props: ContactFlowProps) {
     super(scope, id);
 
-    this.flow = new connect.CfnContactFlow(this, 'Flow', {
+    addConstructMetadata(this, props);
+
+    this.resource = new connect.CfnContactFlow(this, 'Flow', {
       instanceArn: props.instance.instanceArn,
       type: props.type,
       name: props.name,
@@ -115,15 +120,15 @@ export class ContactFlow extends Resource implements IContactFlow {
   }
 
   get contactFlowArn(): string {
-    return this.flow.attrContactFlowArn;
+    return this.resource.attrContactFlowArn;
   }
 
   get contactFlowName(): string {
-    return this.flow.name;
+    return this.resource.name;
   }
 
   get instanceArn(): string {
-    return this.flow.instanceArn;
+    return this.resource.instanceArn;
   }
 }
 
@@ -137,7 +142,7 @@ class LookedUpContactFlow extends Resource implements IContactFlow {
   public readonly contactFlowArn: string;
   public readonly instanceArn: string;
   public readonly contactFlowName: string;
-  public readonly incompleteInstanceDefinition: boolean;
+  public readonly incompleteDefinition: boolean;
 
   constructor(scope: Construct, id: string, props: any, isIncomplete: boolean) {
     super(scope, id, {
@@ -145,9 +150,11 @@ class LookedUpContactFlow extends Resource implements IContactFlow {
       account: props.ownerAccountId,
     });
 
+    addConstructMetadata(this, props);
+
     this.contactFlowArn = props.contactFlowArn;
     this.instanceArn = props.instanceArn;
     this.contactFlowName = props.contactFlowName;
-    this.incompleteInstanceDefinition = isIncomplete;
+    this.incompleteDefinition = isIncomplete;
   }
 }

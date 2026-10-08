@@ -7,12 +7,30 @@ import {
 } from 'aws-cdk-lib';
 
 export enum StorageResourceType {
+  // Chat transcripts in the UI
   CHAT_TRANSCRIPTS = 'CHAT_TRANSCRIPTS',
+  // Call recordings in the UI
   CALL_RECORDINGS = 'CALL_RECORDINGS',
+  // Exported reports in the UI
   SCHEDULED_REPORTS = 'SCHEDULED_REPORTS',
+  // Live media streaming
   MEDIA_STREAMS = 'MEDIA_STREAMS',
+  // Data streaming of Contact Trace Records in the UI
   CONTACT_TRACE_RECORDS = 'CONTACT_TRACE_RECORDS',
+  // Data streaming of Agent Events in the UI
   AGENT_EVENTS = 'AGENT_EVENTS',
+  // Attachments in the UI
+  ATTACHMENTS = 'ATTACHMENTS',
+  // Contact Evaluations in the UI
+  CONTACT_EVALUATIONS = 'CONTACT_EVALUATIONS',
+  // Screen recordings in the UI
+  SCREEN_RECORDINGS = 'SCREEN_RECORDINGS',
+  // Email messages in the UI
+  EMAIL_MESSAGES = 'EMAIL_MESSAGES',
+  // Assuming these 3 are Kenesis data streams ( could not find in UI )
+  REAL_TIME_CONTACT_ANALYSIS_SEGMENTS = 'REAL_TIME_CONTACT_ANALYSIS_SEGMENTS',
+  REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS = 'REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS',
+  REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS = 'REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS',
 }
 
 export enum StorageEncryptionType {
@@ -138,10 +156,17 @@ export class StorageConfig {
       StorageResourceType.CHAT_TRANSCRIPTS,
       StorageResourceType.CALL_RECORDINGS,
       StorageResourceType.SCHEDULED_REPORTS,
+      StorageResourceType.ATTACHMENTS,
+      StorageResourceType.CONTACT_EVALUATIONS,
+      StorageResourceType.SCREEN_RECORDINGS,
+      StorageResourceType.EMAIL_MESSAGES,
     ],
     [StorageConfigType.KINESIS_STREAM]: [
       StorageResourceType.CONTACT_TRACE_RECORDS,
       StorageResourceType.AGENT_EVENTS,
+      StorageResourceType.REAL_TIME_CONTACT_ANALYSIS_SEGMENTS,
+      StorageResourceType.REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS,
+      StorageResourceType.REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS,
     ],
     [StorageConfigType.KINESIS_FIREHOSE]: [
       StorageResourceType.CONTACT_TRACE_RECORDS,

@@ -7,6 +7,7 @@ import {
   ValidationError,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
+import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
 import { IInstance } from './index';
 
@@ -29,10 +30,11 @@ export interface ContactFlowModuleProps {
   readonly name: string;
   readonly description?: string;
   readonly state?: ContactFlowModuleState;
+  // TODO support a builder for this
   readonly content: string;
-  // TODO add these once they are in CDK's lib
-  // readonly settings?: string;
-  // readonly externalInvocationConfiguration?: any;
+  // TODO determine the structure and make a builder for it
+  readonly settings?: string;
+  readonly externalInvocationEnabled?: boolean;
 }
 
 export interface ContactFlowModuleLookupOptions {
@@ -43,12 +45,12 @@ export interface ContactFlowModuleLookupOptions {
 
 export class ContactFlowModule extends Resource implements IContactFlowModule {
   public static fromLookup(scope: Construct, id: string, options: ContactFlowModuleLookupOptions): IContactFlowModule {
-    throw new Error('Not implemented (Bad Amazon API)');
+    throw new Error('Not implemented (Bad Amazon API. Produces a security token invalid)');
 
     if (Token.isUnresolved(options.contactFlowModuleName)
         || Token.isUnresolved(options.instanceArn)
         || Token.isUnresolved(options.contactFlowModuleArn)) {
-      throw new ValidationError('All arguments to ContactFlowModule.fromLookup() must be concrete (no Tokens)', scope);
+      throw new ValidationError(lit`Arguments`, 'All arguments to ContactFlowModule.fromLookup() must be concrete (no Tokens)', scope);
     }
 
     const filter: any = {};
@@ -88,33 +90,34 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
     return new LookedUpContactFlowModule(scope, id, instance ?? DUMMY_CONTACT_FLOW_MODULE_PROPS, instance === undefined);
   }
 
-  readonly flowModule: connect.CfnContactFlowModule;
+  private readonly resource: connect.CfnContactFlowModule;
 
   constructor(scope: Construct, id: string, props: ContactFlowModuleProps) {
     super(scope, id);
 
-    this.flowModule = new connect.CfnContactFlowModule(this, 'Flow', {
+    this.resource = new connect.CfnContactFlowModule(this, 'Flow', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.name,
       content: props.content,
       state: props.state,
-      // TODO add these once they are in CDK's lib
-      // settings: props.settings,
-      // externalInvocationConfiguration: props.externalInvocationConfiguration,
+      settings: props.settings,
+      externalInvocationConfiguration: props.externalInvocationEnabled!==undefined ? {
+        enabled: props.externalInvocationEnabled,
+      } : undefined,
     });
   }
 
   get contactFlowModuleArn(): string {
-    return this.flowModule.attrContactFlowModuleArn;
+    return this.resource.attrContactFlowModuleArn;
   }
 
   get contactFlowModuleName(): string {
-    return this.flowModule.name;
+    return this.resource.name;
   }
 
   get instanceArn(): string {
-    return this.flowModule.instanceArn;
+    return this.resource.instanceArn;
   }
 }
 
@@ -128,7 +131,7 @@ class LookedUpContactFlowModule extends Resource implements IContactFlowModule {
   public readonly contactFlowModuleArn: string;
   public readonly instanceArn: string;
   public readonly contactFlowModuleName: string;
-  public readonly incompleteInstanceDefinition: boolean;
+  public readonly incompleteDefinition: boolean;
 
   constructor(scope: Construct, id: string, props: any, isIncomplete: boolean) {
     super(scope, id, {
@@ -139,6 +142,6 @@ class LookedUpContactFlowModule extends Resource implements IContactFlowModule {
     this.contactFlowModuleArn = props.contactFlowModuleArn;
     this.instanceArn = props.instanceArn;
     this.contactFlowModuleName = props.contactFlowModuleName;
-    this.incompleteInstanceDefinition = isIncomplete;
+    this.incompleteDefinition = isIncomplete;
   }
 }

@@ -7,6 +7,8 @@ import {
   ValidationError,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
+import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { IInstance } from './index';
 
@@ -83,33 +85,42 @@ export interface HoursOfOperationProps {
    * the set of definitions for the hours of operation
    */
   readonly definitions?: HoursOfOperationDefinition[];
+  /**
+   * TODO: Add in Overrides
+   * TODO: Add in Parent HoursOfOperation
+   * TODO: Add in Child HoursOfOperation
+   */
 }
 
 export interface HoursOfOperationLookupOptions {
   readonly instanceArn: string;
+  readonly hoursOfOperationId?: string;
   readonly hoursOfOperationArn?: string;
-  readonly hoursOfOperationName?: string;
+  readonly name?: string;
 }
 
 export class HoursOfOperation extends Resource implements IHoursOfOperation {
   public static fromLookup(scope: Construct, id: string, options: HoursOfOperationLookupOptions): IHoursOfOperation {
-    throw new Error('Not implemented (CcApiContextProvider lacking features - PR #1015)');
-
-    if (Token.isUnresolved(options.hoursOfOperationName)
+    if (Token.isUnresolved(options.name)
         || Token.isUnresolved(options.instanceArn)
+        || Token.isUnresolved(options.hoursOfOperationId)
         || Token.isUnresolved(options.hoursOfOperationArn)) {
-      throw new ValidationError('All arguments to HoursOfOperation.fromLookup() must be concrete (no Tokens)', scope);
+      throw new ValidationError(lit`Arguments`, 'All arguments to HoursOfOperation.fromLookup() must be concrete (no Tokens)', scope);
     }
 
     const filter: any = {};
 
-    filter.resourceModel.InstanceArn = options.instanceArn;
+    filter.resourceModel = {
+      InstanceArn: options.instanceArn,
+    };
     if (options.hoursOfOperationArn) {
       filter.exactIdentifier = options.hoursOfOperationArn;
+    } else if (options.hoursOfOperationId) {
+      filter.exactIdentifier = `${options.instanceArn}/operating-hours/${options.hoursOfOperationId}`;
     }
-    if (options.hoursOfOperationName) {
+    if (options.name) {
       filter.propertyMatch ||= {};
-      filter.propertyMatch.Name = options.hoursOfOperationName;
+      filter.propertyMatch.Name = options.name;
     }
 
     const response: { [key: string]: any }[] = ContextProvider.getValue(scope, {
@@ -135,13 +146,15 @@ export class HoursOfOperation extends Resource implements IHoursOfOperation {
   }
 
   readonly instance: IInstance;
-  readonly hoursOfOperation: connect.CfnHoursOfOperation;
+  private readonly resource: connect.CfnHoursOfOperation;
 
   constructor(scope: Construct, id: string, props: HoursOfOperationProps) {
     super(scope, id);
 
+    addConstructMetadata(this, props);
+
     this.instance = props.instance;
-    this.hoursOfOperation = new connect.CfnHoursOfOperation(
+    this.resource = new connect.CfnHoursOfOperation(
       this, 'HoursOfOperation', {
         config: this.buildHOOConfig(props.definitions),
         name: props.name,
@@ -169,7 +182,7 @@ export class HoursOfOperation extends Resource implements IHoursOfOperation {
   }
 
   get hoursOfOperationArn(): string {
-    return this.hoursOfOperation.attrHoursOfOperationArn;
+    return this.resource.attrHoursOfOperationArn;
   }
 }
 
@@ -183,7 +196,7 @@ class LookedUpHoursOfOperation extends Resource implements IHoursOfOperation {
   public readonly hoursOfOperationArn: string;
   public readonly instanceArn: string;
   public readonly hoursOfOperationName: string;
-  public readonly incompleteInstanceDefinition: boolean;
+  public readonly incompleteDefinition: boolean;
 
   constructor(scope: Construct, id: string, props: any, isIncomplete: boolean) {
     super(scope, id, {
@@ -191,9 +204,11 @@ class LookedUpHoursOfOperation extends Resource implements IHoursOfOperation {
       account: props.ownerAccountId,
     });
 
+    addConstructMetadata(this, props);
+
     this.hoursOfOperationArn = props.hoursOfOperationArn;
     this.instanceArn = props.instanceArn;
     this.hoursOfOperationName = props.hoursOfOperationName;
-    this.incompleteInstanceDefinition = isIncomplete;
+    this.incompleteDefinition = isIncomplete;
   }
 }

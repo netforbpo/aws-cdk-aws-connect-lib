@@ -3,6 +3,7 @@ import {
   IResource,
   Resource,
 } from 'aws-cdk-lib';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { IContactFlow } from './contact_flow';
 import { IInstance } from './instance';
@@ -66,12 +67,14 @@ export interface QuickConnectProps {
 }
 
 export class QuickConnect extends Resource implements IQuickConnect {
-  readonly quickConnect: connect.CfnQuickConnect;
+  private readonly resource: connect.CfnQuickConnect;
 
   constructor(scope: Construct, id: string, props: QuickConnectProps) {
     super(scope, id);
 
-    this.quickConnect = new connect.CfnQuickConnect(this, 'QuickConnect', {
+    addConstructMetadata(this, props);
+
+    this.resource = new connect.CfnQuickConnect(this, 'QuickConnect', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.description,
@@ -118,7 +121,7 @@ export class QuickConnect extends Resource implements IQuickConnect {
   }
 
   get quickConnectArn(): string {
-    return this.quickConnect.attrQuickConnectArn;
+    return this.resource.attrQuickConnectArn;
   }
 }
 

@@ -14,6 +14,8 @@ import {
   ValidationError, Fn,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
+import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { StorageConfig, StorageResourceType } from './storage_config';
 
@@ -35,6 +37,10 @@ export interface OtherConfigProps {
    * Whether contact lens is enabled. (CONTACT_LENS)
    */
   readonly contactLens?: boolean;
+  /**
+   * Whether message streaming is enabled. (MESSAGE_STREAMING)
+   */
+  readonly messageStreaming?: boolean;
   /**
    * Whether enhanced chat monitoring is enabled. (ENHANCED_CHAT_MONITORING)
    */
@@ -113,12 +119,12 @@ export interface InstanceProps {
    *
    * currently that list is the following:
    *
+   * AUTO_MUTE_AGENT_ON_HOLD
    * AUTOMATED_INTERACTION_LOG
    * BOT_MANAGEMENT
    * ENABLE_BOT_ANALYTICS_AND_TRANSCRIPTS
    * FORECASTING_PLANNING_SCHEDULING
    * MAX_PACKAGE
-   * MESSAGE_STREAMING
    */
   readonly customAttributes?: Record<string, boolean>;
   /**
@@ -215,7 +221,7 @@ class LookedUpInstance extends InstanceBase {
   public readonly instanceId: string;
   public readonly instanceArn: string;
   public readonly instanceName: string;
-  public readonly incompleteInstanceDefinition: boolean;
+  public readonly incompleteDefinition: boolean;
 
   constructor(scope: Construct, id: string, props: any, isIncomplete: boolean) {
     super(scope, id, {
@@ -223,10 +229,12 @@ class LookedUpInstance extends InstanceBase {
       account: props.ownerAccountId,
     });
 
+    addConstructMetadata(this, props);
+
     this.instanceId = props.instanceId;
     this.instanceArn = props.instanceArn;
     this.instanceName = props.instanceName;
-    this.incompleteInstanceDefinition = isIncomplete;
+    this.incompleteDefinition = isIncomplete;
   }
 }
 
@@ -240,7 +248,7 @@ export class Instance extends InstanceBase {
     if (Token.isUnresolved(options.instanceId)
         || Token.isUnresolved(options.instanceName)
         || Token.isUnresolved(options.instanceArn)) {
-      throw new ValidationError('All arguments to Instance.fromLookup() must be concrete (no Tokens)', scope);
+      throw new ValidationError(lit`Arguments`, 'All arguments to Instance.fromLookup() must be concrete (no Tokens)', scope);
     }
 
     const filter: any = {};
@@ -263,7 +271,7 @@ export class Instance extends InstanceBase {
       props: {
         typeName: 'AWS::Connect::Instance',
         ...filter,
-        propertiesToReturn: ['Arn', 'InstanceAlias', 'Id', 'Tags'],
+        propertiesToReturn: ['Arn', 'InstanceAlias', 'Id'],
         expectedMatchCount: 'exactly-one',
       } as cxschema.CcApiContextQuery,
       dummyValue: undefined,
@@ -280,11 +288,13 @@ export class Instance extends InstanceBase {
     return new LookedUpInstance(scope, id, instance ?? DUMMY_INSTANCE_PROPS, instance === undefined);
   }
 
-  readonly instance: connect.CfnInstance;
+  private readonly resource: connect.CfnInstance;
   readonly instanceName?: string;
 
   constructor(scope: Construct, id: string, props: InstanceProps) {
     super(scope, id, undefined, props.removalPolicy);
+
+    addConstructMetadata(this, props);
 
     const attributes = {
       ...props.telephonyConfig,
@@ -300,12 +310,12 @@ export class Instance extends InstanceBase {
     }
 
     this.instanceName = props.instanceAlias;
-    this.instance = new connect.CfnInstance(this, 'Instance', {
+    this.resource = new connect.CfnInstance(this, 'Instance', {
       attributes,
       identityManagementType: props.identityType,
       instanceAlias: props.instanceAlias,
     });
-    this.instance.applyRemovalPolicy(props.removalPolicy, { default: RemovalPolicy.DESTROY });
+    this.resource.applyRemovalPolicy(props.removalPolicy, { default: RemovalPolicy.DESTROY });
 
     if (props.storageConfigs) {
       for (const config of props.storageConfigs) {
@@ -323,11 +333,11 @@ export class Instance extends InstanceBase {
   }
 
   get instanceArn(): string {
-    return this.instance.attrArn;
+    return this.resource.attrArn;
   }
 
   get instanceId(): string {
-    return this.instance.ref;
+    return this.resource.ref;
   }
 }
 
