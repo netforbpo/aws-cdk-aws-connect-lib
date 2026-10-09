@@ -1,4 +1,11 @@
 
+## [0.2.6](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.5...v0.2.6) (2026-10-09)
+
+### Bug Fixes
+
+* add missing data table export ([86d7817](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/86d781717ec993bc2188e968064e08fcc80902e4))
+* correct missing readonly on an interface ([6bbca6e](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/6bbca6e035e01a3eefa905ae7e9925e5d531589b))
+
 ## [0.2.5](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.4...v0.2.5) (2026-10-09)
 
 ### Features
