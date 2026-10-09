@@ -65,16 +65,16 @@ export interface DataTableEnumProperty {
 }
 
 export interface DataTableValidationProps {
-  enum?: DataTableEnumProperty;
-  exclusiveMaximum?: number;
-  exclusiveMinimum?: number;
-  maximum?: number;
-  maxLength?: number;
-  maxValues?: number;
-  minimum?: number;
-  minLength?: number;
-  minValues?: number;
-  multipleOf?: number;
+  readonly enum?: DataTableEnumProperty;
+  readonly exclusiveMaximum?: number;
+  readonly exclusiveMinimum?: number;
+  readonly maximum?: number;
+  readonly maxLength?: number;
+  readonly maxValues?: number;
+  readonly minimum?: number;
+  readonly minLength?: number;
+  readonly minValues?: number;
+  readonly multipleOf?: number;
 }
 
 export interface DataTableAttributeProps {
