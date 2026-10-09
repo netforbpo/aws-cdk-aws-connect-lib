@@ -1,5 +1,6 @@
 import {
-  aws_connect as connect, ContextProvider,
+  aws_connect as connect,
+  ContextProvider,
   IResource,
   Resource, Token, ValidationError,
 } from 'aws-cdk-lib';
@@ -63,7 +64,6 @@ export interface UserProps {
   readonly phoneConfig: UserPhoneConfigProps;
   readonly proficiencies: UserProficiencyProps[];
 }
-
 
 const DUMMY_USER_PROPS = {
   instanceArn: 'instance-arn',

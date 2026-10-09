@@ -1,8 +1,13 @@
 import {
   aws_connect as connect,
+  ContextProvider,
   IResource,
   Resource,
+  Token,
+  ValidationError,
 } from 'aws-cdk-lib';
+import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
+import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { IContactFlow } from './contact_flow';
@@ -66,7 +71,66 @@ export interface QuickConnectProps {
   readonly userConfig?: QuickConnectUserConfig;
 }
 
+const DUMMY_QUICK_CONNECT_PROPS = {
+  instanceArn: 'instance-arn',
+  quickConnectArn: 'quick-connect-arn',
+  name: 'quick-connect-name',
+};
+
+export interface QuickConnectLookupOptions {
+  readonly instanceArn: string;
+  readonly quickConnectArn?: string;
+  readonly quickConnectId?: string;
+  readonly name?: string;
+}
+
 export class QuickConnect extends Resource implements IQuickConnect {
+  public static fromLookup(scope: Construct, id: string, options: QuickConnectLookupOptions): IQuickConnect {
+    if (Token.isUnresolved(options.name)
+      || Token.isUnresolved(options.instanceArn)
+      || Token.isUnresolved(options.quickConnectId)
+      || Token.isUnresolved(options.quickConnectArn)) {
+      throw new ValidationError(lit`Arguments`, 'All arguments to QuickConnect.fromLookup() must be concrete (no Tokens)', scope);
+    }
+
+    const filter: any = {};
+
+    filter.resourceModel = {
+      InstanceArn: options.instanceArn,
+    };
+    if (options.quickConnectArn) {
+      filter.exactIdentifier = options.quickConnectArn;
+    } else if (options.quickConnectId) {
+      filter.exactIdentifier = `${options.instanceArn}/transfer-destination/${options.quickConnectId}`;
+    }
+    if (options.name) {
+      filter.propertyMatch ||= {};
+      filter.propertyMatch.Name = options.name;
+    }
+
+    const response: { [key: string]: any }[] = ContextProvider.getValue(scope, {
+      provider: cxschema.ContextProvider.CC_API_PROVIDER,
+      props: {
+        typeName: 'AWS::Connect::QuickConnect',
+        ...filter,
+        propertiesToReturn: ['QuickConnectArn', 'QuickConnectType', 'Name'],
+        expectedMatchCount: 'exactly-one',
+      } as cxschema.CcApiContextQuery,
+      dummyValue: undefined,
+    }).value;
+
+    let instance = undefined;
+    if (response && response[0]) {
+      instance = {
+        instanceArn: options.instanceArn,
+        quickConnectArn: response[0].QuickConnectArn,
+        type: response[0].Type,
+        name: response[0].Name,
+      };
+    }
+    return new LookedUpQuickConnect(scope, id, instance ?? DUMMY_QUICK_CONNECT_PROPS, instance === undefined);
+  }
+
   private readonly resource: connect.CfnQuickConnect;
 
   constructor(scope: Construct, id: string, props: QuickConnectProps) {
@@ -122,6 +186,24 @@ export class QuickConnect extends Resource implements IQuickConnect {
 
   get quickConnectArn(): string {
     return this.resource.attrQuickConnectArn;
+  }
+}
+
+class LookedUpQuickConnect extends Resource implements IQuickConnect {
+  public readonly instanceArn: string;
+  public readonly quickConnectArn: string;
+  public readonly incompleteDefinition: boolean;
+
+  constructor(scope: Construct, id: string, props: any, isIncomplete: boolean) {
+    super(scope, id, {
+      region: props.region,
+      account: props.ownerAccountId,
+    });
+    addConstructMetadata(this, props);
+
+    this.instanceArn = props.instanceArn;
+    this.quickConnectArn = props.quickConnectArn;
+    this.incompleteDefinition = isIncomplete;
   }
 }
 

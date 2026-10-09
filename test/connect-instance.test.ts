@@ -13,15 +13,13 @@ import {
 } from '../src';
 import './vitest.d.ts';
 
-declare global {
-  let mockApp: App;
-  let stack: Stack;
-  let setupStack: Stack;
-  let instance_props: InstanceProps;
-  let template: Template;
-  let annotations: Annotations;
-  let storageConfigs: StorageConfig[];
-}
+declare const mockApp: App;
+declare const stack: Stack;
+declare const setupStack: Stack;
+declare const instance_props: InstanceProps;
+declare const template: Template;
+declare const annotations: Annotations;
+declare const storageConfigs: StorageConfig[];
 
 set('mockApp', () => new App());
 set('stack', () => new Stack(mockApp));
