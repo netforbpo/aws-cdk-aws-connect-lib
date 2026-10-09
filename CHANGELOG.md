@@ -1,4 +1,10 @@
 
+## [0.2.5](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.4...v0.2.5) (2026-10-09)
+
+### Features
+
+* update and dedupe packages ([c2f4dbe](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/c2f4dbed01f51b627eec1985e66ee1134301d1a2))
+
 ## [0.2.4](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.3...v0.2.4) (2026-10-08)
 
 ### Features
