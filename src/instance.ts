@@ -151,11 +151,11 @@ export interface IInstance extends IResource {
    */
   readonly instanceName?: string;
 
-  addStorageConfig(config: StorageConfig, id: string | undefined): void;
+  addStorageConfig(config: StorageConfig, id: string | undefined, scope: Construct | undefined): void;
 
-  associateLambdaFunction(id: string, func: lambda.IFunction): void;
+  associateLambdaFunction(id: string, func: lambda.IFunction, scope: Construct | undefined): void;
 
-  associateLexBot(id: string, bot: lex.IBotAliasRef): void;
+  associateLexBot(id: string, bot: lex.IBotAliasRef, scope: Construct | undefined): void;
 }
 
 export interface InstanceLookupOptions {
@@ -186,7 +186,7 @@ abstract class InstanceBase extends Resource implements IInstance {
     this.removalPolicy = removalPolicy;
   }
 
-  addStorageConfig(config: StorageConfig, id: string | undefined = undefined) {
+  addStorageConfig(config: StorageConfig, id: string | undefined = undefined, scope: Construct | undefined = undefined) {
     if (this.storageResourceTypes.has(config.resourceType)) {
       Annotations.of(this).addError(`Duplicate resourceType ${config.resourceType} in storageConfig`);
       return;
@@ -196,20 +196,20 @@ abstract class InstanceBase extends Resource implements IInstance {
       return;
     }
     this.storageResourceTypes.add(config.resourceType);
-    const storage = new connect.CfnInstanceStorageConfig(this, id || `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
+    const storage = new connect.CfnInstanceStorageConfig(scope || this, id || `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
     storage.applyRemovalPolicy(config.removalPolicy, { default: this.removalPolicy || RemovalPolicy.DESTROY });
   }
 
-  associateLambdaFunction(id: string, func: lambda.IFunction) {
-    new connect.CfnIntegrationAssociation(this, id, {
+  associateLambdaFunction(id: string, func: lambda.IFunction, scope: Construct | undefined = undefined) {
+    new connect.CfnIntegrationAssociation(scope || this, id, {
       instanceId: this.instanceArn,
       integrationType: 'LAMBDA_FUNCTION',
       integrationArn: func.functionArn,
     });
   }
 
-  associateLexBot(id: string, bot: lex.IBotAliasRef) {
-    new connect.CfnIntegrationAssociation(this, id, {
+  associateLexBot(id: string, bot: lex.IBotAliasRef, scope: Construct | undefined = undefined) {
+    new connect.CfnIntegrationAssociation(scope || this, id, {
       instanceId: this.instanceArn,
       integrationType: 'LEX_BOT',
       integrationArn: bot.botAliasRef.botAliasArn,
