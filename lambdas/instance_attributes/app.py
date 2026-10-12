@@ -39,7 +39,7 @@ def on_update(event):
   old_instance_id = old_props.get('InstanceId')
   if not instance_id:
     raise Exception('Invalid request: missing InstanceId')
-  if instance_id != old_instance_id:
+  if instance_id.split('/')[-1] != old_instance_id.split('/')[-1]:
     raise Exception('Cannot change InstanceId on update')
 
   attributes = props.get('CustomAttributes', {})

@@ -337,7 +337,7 @@ export class Instance extends InstanceBase {
   }
 
   get instanceId(): string {
-    return this.resource.ref;
+    return this.resource.attrId;
   }
 }
 
