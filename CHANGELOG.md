@@ -1,4 +1,11 @@
 
+## [0.2.7](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.6...v0.2.7) (2026-10-12)
+
+### Features
+
+* allow attaching storage, lambdas, and lex bots from other scopes ([c8ab43c](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/c8ab43c40a4ed2d8f58b446db138a5a1af1ccdcc))
+* remove extraneous debug line ([932ecfc](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/932ecfc0322f0ce9f64c2f0a9aa711f76b2a7d37))
+
 ## [0.2.6](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.5...v0.2.6) (2026-10-09)
 
 ### Bug Fixes
