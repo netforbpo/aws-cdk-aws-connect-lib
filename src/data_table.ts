@@ -116,7 +116,6 @@ abstract class DataTableBase extends Resource implements IDataTable {
    * @param id
    */
   addAttribute(config: DataTableAttributeProps, id: string | undefined = undefined) : DataTableAttribute {
-    console.log('attib instance', this.instanceArn);
     const attrib = new connect.CfnDataTableAttribute(this, id || `Attribute-${config.name}}`, {
       instanceArn: this.instanceArn,
       dataTableArn: this.dataTableArn,
