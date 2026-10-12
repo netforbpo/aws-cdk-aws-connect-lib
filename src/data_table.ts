@@ -1,8 +1,10 @@
 import crypto from 'crypto';
 import {
   aws_connect as connect,
-  ContextProvider, IResolvable,
+  ContextProvider,
+  IResolvable,
   IResource,
+  Fn,
   Resource,
   Token,
   ValidationError,
@@ -18,6 +20,10 @@ export interface IDataTable extends IResource {
    * The ARN of the data table
    */
   readonly dataTableArn: string;
+  /**
+   * the ID of the data table
+   */
+  readonly dataTableId: string;
 }
 
 export enum DataTableValueLockLevel {
@@ -105,6 +111,7 @@ export interface DataTableLookupOptions {
 
 abstract class DataTableBase extends Resource implements IDataTable {
   public abstract readonly dataTableArn: string;
+  public abstract readonly dataTableId: string;
   public abstract readonly instanceArn: string;
 
   private definedAttributes: Map<string, DataTableAttribute> = new Map();
@@ -115,7 +122,7 @@ abstract class DataTableBase extends Resource implements IDataTable {
    * @param config
    * @param id
    */
-  addAttribute(config: DataTableAttributeProps, id: string | undefined = undefined) : DataTableAttribute {
+  addAttribute(config: DataTableAttributeProps, id: string | undefined = undefined): DataTableAttribute {
     const attrib = new connect.CfnDataTableAttribute(this, id || `Attribute-${config.name}}`, {
       instanceArn: this.instanceArn,
       dataTableArn: this.dataTableArn,
@@ -135,7 +142,10 @@ abstract class DataTableBase extends Resource implements IDataTable {
     return info;
   }
 
-  private buildHash(data: any, { json_encode = true, length = 8 }: { json_encode?: boolean; length?: number } = {}): string {
+  private buildHash(data: any, { json_encode = true, length = 8 }: {
+    json_encode?: boolean;
+    length?: number;
+  } = {}): string {
     if (json_encode) {
       data = JSON.stringify(data);
     }
@@ -144,7 +154,7 @@ abstract class DataTableBase extends Resource implements IDataTable {
   }
 
   private mapAttributes(values: { [key: string]: string }): connect.CfnDataTableRecord.ValueProperty[] {
-    const ret : connect.CfnDataTableRecord.ValueProperty[] = [];
+    const ret: connect.CfnDataTableRecord.ValueProperty[] = [];
     for (const [key, value] of Object.entries(values)) {
       const lookup = this.definedAttributes.get(key);
       if (!lookup || !lookup.attributeId) {
@@ -167,7 +177,7 @@ abstract class DataTableBase extends Resource implements IDataTable {
    * @param primary_values To set the default records, specify and empty object ({})
    * @param values
    */
-  addRecord(primary_values: { [key: string]: string }, values: { [key: string]: string } ) {
+  addRecord(primary_values: { [key: string]: string }, values: { [key: string]: string }) {
     const keyhash = this.buildHash(primary_values);
     new connect.CfnDataTableRecord(
       this, `Record-${keyhash}`,
@@ -255,10 +265,15 @@ export class DataTable extends DataTableBase {
   get dataTableArn(): string {
     return this.resource.attrArn;
   }
+
+  get dataTableId(): string {
+    return Fn.select(3, Fn.split('/', this.dataTableArn));
+  }
 }
 
 class LookedUpDataTable extends DataTableBase {
   public readonly dataTableArn: string;
+  public readonly dataTableId: string;
   public readonly instanceArn: string;
   public readonly incompleteDefinition: boolean;
 
@@ -271,6 +286,7 @@ class LookedUpDataTable extends DataTableBase {
 
     this.instanceArn = props.instanceArn;
     this.dataTableArn = props.dataTableArn;
+    this.dataTableId = this.dataTableArn.split('/')[3];
     this.incompleteDefinition = isIncomplete;
   }
 }
