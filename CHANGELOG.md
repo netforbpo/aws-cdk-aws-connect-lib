@@ -1,4 +1,10 @@
 
+## [0.2.8](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.7...v0.2.8) (2026-10-12)
+
+### Features
+
+* expose dataTableId from the data table class ([85378e3](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/85378e308077c3ec8954d4d29880d3907604a1e7))
+
 ## [0.2.7](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.6...v0.2.7) (2026-10-12)
 
 ### Features
