@@ -1,4 +1,10 @@
 
+## [0.2.9](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.8...v0.2.9) (2026-10-12)
+
+### Bug Fixes
+
+* correct the exposure of the instanceId to be correct ([448764c](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/448764cb9b37ab5ce8b3b6d717ef612b91f56363))
+
 ## [0.2.8](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.7...v0.2.8) (2026-10-12)
 
 ### Features
