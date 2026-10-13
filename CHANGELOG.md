@@ -1,4 +1,11 @@
 
+## [0.2.10](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.9...v0.2.10) (2026-10-13)
+
+### Features
+
+* add prompt construct ([0cdd0f8](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/0cdd0f86720dbda49c23a4ce0917d6ac32fcd594))
+* expose contactFlowId, contactFlowModuleId, and queueId ([e9b953c](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/e9b953c6a9aa8fa8af8cda525b16cde8cf268c28))
+
 ## [0.2.9](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.8...v0.2.9) (2026-10-12)
 
 ### Bug Fixes
