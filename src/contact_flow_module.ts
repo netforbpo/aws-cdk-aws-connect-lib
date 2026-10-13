@@ -11,7 +11,7 @@ import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
 import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
-import { ContactFlowModuleAliasOptions } from './contact_flow_module_alias';
+import { ContactFlowModuleAlias, ContactFlowModuleAliasOptions } from './contact_flow_module_alias';
 import { ContactFlowModuleVersion, ContactFlowModuleVersionOptions } from './contact_flow_module_version';
 import { IInstance } from './instance';
 
@@ -159,8 +159,8 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
     return this.resource.instanceArn;
   }
 
-  public addAlias(aliasName: string, options: ContactFlowModuleAliasOptions) {
-    this.currentVersion.addAlias(aliasName, options);
+  public addAlias(aliasName: string, options: ContactFlowModuleAliasOptions): ContactFlowModuleAlias {
+    return this.currentVersion.addAlias(aliasName, options);
   }
 }
 
