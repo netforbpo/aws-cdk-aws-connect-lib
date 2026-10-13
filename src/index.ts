@@ -2,6 +2,8 @@ export * from './types';
 export * from './instance';
 export * from './contact_flow';
 export * from './contact_flow_module';
+export * from './contact_flow_module_version';
+export * from './contact_flow_module_alias';
 export * from './data_table';
 export * from './hours_of_operation';
 export * from './traffic_distribution_group';

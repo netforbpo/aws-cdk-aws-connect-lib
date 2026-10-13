@@ -11,7 +11,7 @@ import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
 import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
-import { IInstance } from './index';
+import { IInstance } from './instance';
 
 export interface IContactFlow extends IResource {
   /**

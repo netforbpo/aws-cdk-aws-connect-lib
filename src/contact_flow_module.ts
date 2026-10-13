@@ -9,8 +9,11 @@ import {
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
 import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
-import { IInstance } from './index';
+import { ContactFlowModuleAliasOptions } from './contact_flow_module_alias';
+import { ContactFlowModuleVersion, ContactFlowModuleVersionOptions } from './contact_flow_module_version';
+import { IInstance } from './instance';
 
 export interface IContactFlowModule extends IResource {
   /**
@@ -37,6 +40,7 @@ export interface ContactFlowModuleProps {
   // TODO determine the structure and make a builder for it
   readonly settings?: string;
   readonly externalInvocationEnabled?: boolean;
+  readonly currentVersionOptions?: ContactFlowModuleVersionOptions;
 }
 
 export interface ContactFlowModuleLookupOptions {
@@ -50,8 +54,8 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
     throw new Error('Not implemented (Bad Amazon API. Produces a security token invalid)');
 
     if (Token.isUnresolved(options.contactFlowModuleName)
-        || Token.isUnresolved(options.instanceArn)
-        || Token.isUnresolved(options.contactFlowModuleArn)) {
+      || Token.isUnresolved(options.instanceArn)
+      || Token.isUnresolved(options.contactFlowModuleArn)) {
       throw new ValidationError(lit`Arguments`, 'All arguments to ContactFlowModule.fromLookup() must be concrete (no Tokens)', scope);
     }
 
@@ -70,7 +74,7 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
       filter.propertyMatch.Name = options.contactFlowModuleName;
     }
 
-    const response : { [key: string]: any }[] = ContextProvider.getValue(scope, {
+    const response: { [key: string]: any }[] = ContextProvider.getValue(scope, {
       provider: cxschema.ContextProvider.CC_API_PROVIDER,
       props: {
         typeName: 'AWS::Connect::ContactFlowModule',
@@ -93,9 +97,15 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
   }
 
   private readonly resource: connect.CfnContactFlowModule;
+  private _currentVersion?: ContactFlowModuleVersion;
+  private readonly currentVersionOptions?: ContactFlowModuleVersionOptions;
 
   constructor(scope: Construct, id: string, props: ContactFlowModuleProps) {
     super(scope, id);
+
+    addConstructMetadata(this, props);
+
+    this.currentVersionOptions = props.currentVersionOptions;
 
     this.resource = new connect.CfnContactFlowModule(this, 'Flow', {
       instanceArn: props.instance.instanceArn,
@@ -104,10 +114,20 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
       content: props.content,
       state: props.state,
       settings: props.settings,
-      externalInvocationConfiguration: props.externalInvocationEnabled!==undefined ? {
+      externalInvocationConfiguration: props.externalInvocationEnabled !== undefined ? {
         enabled: props.externalInvocationEnabled,
       } : undefined,
     });
+  }
+
+  get currentVersion(): ContactFlowModuleVersion {
+    if (!this._currentVersion) {
+      this._currentVersion = new ContactFlowModuleVersion(this, 'CurrentVersion', {
+        contactFlowModule: this,
+        ...this.currentVersionOptions,
+      });
+    }
+    return this._currentVersion!;
   }
 
   get contactFlowModuleId(): string {
@@ -124,6 +144,10 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
 
   get instanceArn(): string {
     return this.resource.instanceArn;
+  }
+
+  public addAlias(aliasName: string, options: ContactFlowModuleAliasOptions) {
+    this.currentVersion.addAlias(aliasName, options);
   }
 }
 
