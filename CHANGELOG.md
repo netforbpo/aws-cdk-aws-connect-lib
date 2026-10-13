@@ -1,4 +1,10 @@
 
+## [0.2.12](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.11...v0.2.12) (2026-10-13)
+
+### Features
+
+* cleanup the alias creation and expose a generic reference Id to be used in flow building ([d651df0](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/d651df0e8494a876fa6e5705d99d3a6cc0a673f6))
+
 ## [0.2.11](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.10...v0.2.11) (2026-10-13)
 
 ### Features
