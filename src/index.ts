@@ -7,6 +7,7 @@ export * from './hours_of_operation';
 export * from './traffic_distribution_group';
 export * from './queue';
 export * from './phone_number';
+export * from './prompt';
 export * from './email_address';
 export * from './quick_connect';
 export * from './hierarchy_group';
