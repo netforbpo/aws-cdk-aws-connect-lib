@@ -15,7 +15,16 @@ import { ContactFlowModuleAliasOptions } from './contact_flow_module_alias';
 import { ContactFlowModuleVersion, ContactFlowModuleVersionOptions } from './contact_flow_module_version';
 import { IInstance } from './instance';
 
-export interface IContactFlowModule extends IResource {
+export interface IContactFlowModuleRef extends IResource {
+  /**
+   * The general reference ID of this flow module. For use within the contact flow InvokeFlowModule.
+   *
+   * This will point to the flow module, a specific version, or an alias depending on the construct.
+   */
+  readonly flowReferenceId: string;
+}
+
+export interface IContactFlowModule extends IResource, IContactFlowModuleRef {
   /**
    * The ARN of the flow.
    */
@@ -130,6 +139,10 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
     return this._currentVersion!;
   }
 
+  get flowReferenceId(): string {
+    return this.contactFlowModuleId;
+  }
+
   get contactFlowModuleId(): string {
     return Fn.select(3, Fn.split('/', this.contactFlowModuleArn));
   }
@@ -175,5 +188,9 @@ class LookedUpContactFlowModule extends Resource implements IContactFlowModule {
     this.instanceArn = props.instanceArn;
     this.contactFlowModuleName = props.contactFlowModuleName;
     this.incompleteDefinition = isIncomplete;
+  }
+
+  get flowReferenceId(): string {
+    return this.contactFlowModuleId;
   }
 }

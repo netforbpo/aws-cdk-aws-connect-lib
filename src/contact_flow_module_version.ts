@@ -1,15 +1,16 @@
 import {
-  aws_connect as connect,
+  aws_connect as connect, Fn,
   IResource,
   Resource,
 } from 'aws-cdk-lib';
 import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
-import { IContactFlowModule } from './contact_flow_module';
+import { IContactFlowModule, IContactFlowModuleRef } from './contact_flow_module';
 import { ContactFlowModuleAlias, ContactFlowModuleAliasOptions } from './contact_flow_module_alias';
 
-export interface IContactFlowModuleVersion extends IResource {
+export interface IContactFlowModuleVersion extends IResource, IContactFlowModuleRef {
   readonly contactFlowModule: IContactFlowModule;
+  readonly contactFlowModuleVersionId: string;
   readonly contactFlowModuleVersionArn: string;
   readonly version: number;
 
@@ -45,6 +46,14 @@ export class ContactFlowModuleVersion extends Resource implements IContactFlowMo
     return this._contactFlowModule;
   }
 
+  get flowReferenceId(): string {
+    return this.contactFlowModuleVersionId;
+  }
+
+  get contactFlowModuleVersionId(): string {
+    return Fn.select(3, Fn.split('/', this.contactFlowModuleVersionArn));
+  }
+
   get contactFlowModuleVersionArn(): string {
     return this.resource.attrContactFlowModuleVersionArn;
   }
@@ -55,8 +64,7 @@ export class ContactFlowModuleVersion extends Resource implements IContactFlowMo
 
   addAlias(aliasName: string, options?: ContactFlowModuleAliasOptions): ContactFlowModuleAlias {
     return new ContactFlowModuleAlias(this, `Alias${aliasName}`, {
-      contactFlowModule: this.contactFlowModule,
-      version: this.version,
+      contactFlowModuleVersion: this,
       aliasName,
       description: options?.description,
     });
