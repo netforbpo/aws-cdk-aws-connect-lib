@@ -1,5 +1,5 @@
 import {
-  aws_connect as connect, ContextProvider,
+  aws_connect as connect, ContextProvider, Fn,
   IResource,
   Resource, Token, ValidationError,
 } from 'aws-cdk-lib';
@@ -16,6 +16,7 @@ import { IQuickConnect } from './quick_connect';
 
 export interface IQueue extends IResource {
   readonly queueArn: string;
+  readonly queueId: string;
 }
 
 export enum QueueStatus {
@@ -39,7 +40,7 @@ export interface QueueProps {
    */
   readonly hoursOfOperation: IHoursOfOperation;
   /**
-   * The name of the hours of operation.
+   * The name of the queue.
    */
   readonly name: string;
   /**
@@ -107,7 +108,8 @@ export class Queue extends Resource implements IQueue {
       instance = {
         instanceArn: options.instanceArn,
         queueArn: response[0].QueueArn,
-        hoursOfOperationName: response[0].Name,
+        queueType: response[0].Type,
+        queueName: response[0].Name,
       };
     }
     return new LookedUpQueue(scope, id, instance ?? DUMMY_QUEUE_PROPS, instance === undefined);
@@ -147,6 +149,10 @@ export class Queue extends Resource implements IQueue {
     });
   }
 
+  get queueId(): string {
+    return Fn.select(3, Fn.split('/', this.queueArn));
+  }
+
   get queueArn(): string {
     return this.resource.attrQueueArn;
   }
@@ -155,12 +161,15 @@ export class Queue extends Resource implements IQueue {
 const DUMMY_QUEUE_PROPS = {
   instanceArn: 'instance-arn',
   queueArn: 'queue-arn',
+  queueType: 'queue-type',
   queueName: 'queue-name',
 };
 
 class LookedUpQueue extends Resource implements IQueue {
   public readonly instanceArn: string;
+  public readonly queueId: string;
   public readonly queueArn: string;
+  public readonly name: string;
   public readonly incompleteDefinition: boolean;
 
   constructor(scope: Construct, id: string, props: any, isIncomplete: boolean) {
@@ -173,6 +182,8 @@ class LookedUpQueue extends Resource implements IQueue {
 
     this.instanceArn = props.instanceArn;
     this.queueArn = props.queueArn;
+    this.queueId = Fn.select(3, Fn.split('/', this.queueArn));
+    this.name = props.queueName;
     this.incompleteDefinition = isIncomplete;
   }
 }

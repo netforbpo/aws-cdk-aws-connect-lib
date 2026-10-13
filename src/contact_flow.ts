@@ -1,6 +1,7 @@
 import {
   aws_connect as connect,
   ContextProvider,
+  Fn,
   IResource,
   Resource,
   Token,
@@ -16,6 +17,7 @@ export interface IContactFlow extends IResource {
   /**
    * The ARN of the flow.
    */
+  readonly contactFlowId: string;
   readonly contactFlowArn: string;
   readonly instanceArn: string;
   readonly contactFlowName: string;
@@ -119,6 +121,10 @@ export class ContactFlow extends Resource implements IContactFlow {
     });
   }
 
+  get contactFlowId(): string {
+    return Fn.select(3, Fn.split('/', this.contactFlowArn));
+  }
+
   get contactFlowArn(): string {
     return this.resource.attrContactFlowArn;
   }
@@ -139,6 +145,7 @@ const DUMMY_CONTACT_FLOW_PROPS = {
 };
 
 class LookedUpContactFlow extends Resource implements IContactFlow {
+  public readonly contactFlowId: string;
   public readonly contactFlowArn: string;
   public readonly instanceArn: string;
   public readonly contactFlowName: string;
@@ -153,6 +160,7 @@ class LookedUpContactFlow extends Resource implements IContactFlow {
     addConstructMetadata(this, props);
 
     this.contactFlowArn = props.contactFlowArn;
+    this.contactFlowId = this.contactFlowArn.split('/')[-1];
     this.instanceArn = props.instanceArn;
     this.contactFlowName = props.contactFlowName;
     this.incompleteDefinition = isIncomplete;
