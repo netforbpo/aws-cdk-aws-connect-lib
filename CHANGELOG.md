@@ -1,4 +1,10 @@
 
+## [0.2.13](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.12...v0.2.13) (2026-10-13)
+
+### Features
+
+* return the created alias from the addAlias function ([77f82b1](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/77f82b189b8f06a0933a2a2b237f43f639b494cf))
+
 ## [0.2.12](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.11...v0.2.12) (2026-10-13)
 
 ### Features
