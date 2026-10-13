@@ -1,4 +1,10 @@
 
+## [0.2.11](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.10...v0.2.11) (2026-10-13)
+
+### Features
+
+* add in contact flow module versioning and aliasing ([216104a](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/216104adb88f9c4309ab5aed849ca77edc926611))
+
 ## [0.2.10](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.9...v0.2.10) (2026-10-13)
 
 ### Features
