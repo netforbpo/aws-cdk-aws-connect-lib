@@ -4,6 +4,7 @@ import {
   ContextProvider,
   Fn,
   IResource,
+  RemovalPolicy,
   Resource,
   Stack,
   Token,
@@ -30,7 +31,7 @@ function calculateFlowHash(flow: ContactFlowModule, additional: string = ''): st
 }
 
 function sortFunctionProperties(properties: { [x: string]: any }) {
-  const sorted : { [x: string]: any } = {};
+  const sorted: { [x: string]: any } = {};
   Object.keys(properties).sort().forEach((key) => {
     sorted[key] = properties[key];
   });
@@ -187,6 +188,8 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
         contactFlowModule: this,
         ...this.currentVersionOptions,
       });
+      // We retain the current version so that it is not deleted when a new version is created.
+      (this._currentVersion.node.defaultChild as CfnResource)?.applyRemovalPolicy(RemovalPolicy.RETAIN);
 
       // override the version's logical ID with a lazy string which includes the hash of the version itself.
       // this causes a new version resource to be created when things change.
