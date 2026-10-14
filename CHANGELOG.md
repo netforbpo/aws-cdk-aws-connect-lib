@@ -1,4 +1,15 @@
 
+## [0.3.1](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.3.0...v0.3.1) (2026-10-14)
+
+### Features
+
+* add in the basic implementation of creating a view ([c3c0b8a](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/c3c0b8aa619487d33361e4cbcf0350db1831047f))
+* retain the current contact flow module version so previous versions are not deleted ([b09bff3](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/b09bff3195fa170ec288f54ee38ddeaea21c7377))
+
+### Bug Fixes
+
+* correct setting description on contact flow and contact flow modules ([27baa02](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/27baa02efc51c2c85c906687b25106e7f11db7a7))
+
 ## [0.3.0](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.13...v0.3.0) (2026-10-14)
 
 ### ⚠ BREAKING CHANGES
