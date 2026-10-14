@@ -1,4 +1,15 @@
 
+## [0.3.0](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.13...v0.3.0) (2026-10-14)
+
+### ⚠ BREAKING CHANGES
+
+* all logical IDs will change with this update.
+  Marking removalPolicy to retain, removing the resources, and then re-importing with retain will re-align things.
+
+### Features
+
+* Major rework of constructs ([994b94d](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/994b94d4cf6adabe7c421ffbb2b9a7c6f5cf57db))
+
 ## [0.2.13](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.2.12...v0.2.13) (2026-10-13)
 
 ### Features
