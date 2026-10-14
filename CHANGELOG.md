@@ -1,4 +1,10 @@
 
+## [0.3.2](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.3.1...v0.3.2) (2026-10-14)
+
+### Features
+
+* expose the view module ([3b1a719](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/3b1a719bd749d4bd9d97bcb62714854dfeea6fec))
+
 ## [0.3.1](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.3.0...v0.3.1) (2026-10-14)
 
 ### Features
