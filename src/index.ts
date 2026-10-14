@@ -17,3 +17,4 @@ export * from './user';
 export * from './routing_profile';
 export * from './security_profile';
 export * from './storage_config';
+export * from './view';
