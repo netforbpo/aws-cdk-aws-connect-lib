@@ -115,7 +115,7 @@ export class ContactFlow extends Resource implements IContactFlow {
       instanceArn: props.instance.instanceArn,
       type: props.type,
       name: props.name,
-      description: props.name,
+      description: props.description,
       content: props.content,
       state: props.state,
     });

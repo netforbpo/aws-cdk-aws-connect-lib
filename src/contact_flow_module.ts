@@ -162,7 +162,7 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
     this.resource = new connect.CfnContactFlowModule(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
-      description: props.name,
+      description: props.description,
       content: props.content,
       state: props.state,
       settings: props.settings,
