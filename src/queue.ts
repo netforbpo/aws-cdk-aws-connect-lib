@@ -127,7 +127,7 @@ export class Queue extends Resource implements IQueue {
     this.instance = props.instance;
     this.hoursOfOperation = props.hoursOfOperation;
 
-    this.resource = new connect.CfnQueue(this, 'Queue', {
+    this.resource = new connect.CfnQueue(this, 'Resource', {
       instanceArn: this.instance.instanceArn,
       hoursOfOperationArn: this.hoursOfOperation.hoursOfOperationArn,
       name: props.name,

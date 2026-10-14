@@ -138,7 +138,7 @@ export class QuickConnect extends Resource implements IQuickConnect {
 
     addConstructMetadata(this, props);
 
-    this.resource = new connect.CfnQuickConnect(this, 'QuickConnect', {
+    this.resource = new connect.CfnQuickConnect(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.description,

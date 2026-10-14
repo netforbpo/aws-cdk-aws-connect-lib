@@ -1,19 +1,61 @@
 import {
   aws_connect as connect,
+  CfnResource,
   ContextProvider,
   Fn,
   IResource,
   Resource,
+  Stack,
   Token,
   ValidationError,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
-import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { Box, lit, md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { ContactFlowModuleAlias, ContactFlowModuleAliasOptions } from './contact_flow_module_alias';
 import { ContactFlowModuleVersion, ContactFlowModuleVersionOptions } from './contact_flow_module_version';
 import { IInstance } from './instance';
+
+function calculateFlowHash(flow: ContactFlowModule, additional: string = ''): string {
+  const stack = Stack.of(flow);
+
+  const flowResource = flow.node.defaultChild as CfnResource;
+  const { properties, template, logicalId } = resolveSingleResourceProperties(stack, flowResource);
+
+  template.Resources[logicalId].Properties = sortFunctionProperties(properties);
+  const stringifiedConfig = JSON.stringify(template);
+
+  return md5hash(stringifiedConfig + additional);
+}
+
+function sortFunctionProperties(properties: { [x: string]: any }) {
+  const sorted : { [x: string]: any } = {};
+  Object.keys(properties).sort().forEach((key) => {
+    sorted[key] = properties[key];
+  });
+  return sorted;
+}
+
+function resolveSingleResourceProperties(stack: Stack, res: CfnResource): any {
+  const template = stack.resolve(res._toCloudFormation());
+  const resources = template.Resources;
+  const resourceKeys = Object.keys(resources);
+  if (resourceKeys.length !== 1) {
+    throw new ValidationError(
+      lit`ExpectedSingleCloudFormationResource`,
+      `Expected one rendered CloudFormation resource but found ${resourceKeys.length}`,
+      res);
+  }
+  const logicalId = resourceKeys[0];
+  return { properties: resources[logicalId].Properties, template, logicalId };
+}
+
+function trimFromStart(s: string, maxLength: number) {
+  const desiredLength = Math.min(maxLength, s.length);
+  const newStart = s.length - desiredLength;
+  return s.substring(newStart);
+}
 
 export interface IContactFlowModuleRef extends IResource {
   /**
@@ -108,6 +150,7 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
   private readonly resource: connect.CfnContactFlowModule;
   private _currentVersion?: ContactFlowModuleVersion;
   private readonly currentVersionOptions?: ContactFlowModuleVersionOptions;
+  private hashMixins = Box.fromArray<string>([], { omitEmpty: false });
 
   constructor(scope: Construct, id: string, props: ContactFlowModuleProps) {
     super(scope, id);
@@ -116,7 +159,7 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
 
     this.currentVersionOptions = props.currentVersionOptions;
 
-    this.resource = new connect.CfnContactFlowModule(this, 'Flow', {
+    this.resource = new connect.CfnContactFlowModule(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.name,
@@ -129,12 +172,33 @@ export class ContactFlowModule extends Resource implements IContactFlowModule {
     });
   }
 
+  public invalidateVersionBasedOn(x: string) {
+    if (Token.isUnresolved(x)) {
+      throw new ValidationError(lit`InvalidateVersionUnresolvedToken`,
+        'invalidateVersionBasedOn: input may not contain unresolved tokens',
+        this);
+    }
+    this.hashMixins.push(x);
+  }
+
   get currentVersion(): ContactFlowModuleVersion {
     if (!this._currentVersion) {
       this._currentVersion = new ContactFlowModuleVersion(this, 'CurrentVersion', {
         contactFlowModule: this,
         ...this.currentVersionOptions,
       });
+
+      // override the version's logical ID with a lazy string which includes the hash of the version itself.
+      // this causes a new version resource to be created when things change.
+
+      const cfn = this._currentVersion.node.defaultChild as CfnResource;
+      const originalLogicalId = this.stack.resolve(cfn.logicalId) as string;
+
+      cfn.overrideLogicalId(Token.asString(this.hashMixins.derive((mixins) => {
+        const hash = calculateFlowHash(this, mixins.join(''));
+        const logicalId = trimFromStart(originalLogicalId, 255 - 25);
+        return `${logicalId}${hash}`;
+      })));
     }
     return this._currentVersion!;
   }

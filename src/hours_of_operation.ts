@@ -154,14 +154,12 @@ export class HoursOfOperation extends Resource implements IHoursOfOperation {
     addConstructMetadata(this, props);
 
     this.instance = props.instance;
-    this.resource = new connect.CfnHoursOfOperation(
-      this, 'HoursOfOperation', {
-        config: this.buildHOOConfig(props.definitions),
-        name: props.name,
-        timeZone: props.timeZone ?? 'UTC',
-        instanceArn: this.instanceArn,
-      },
-    );
+    this.resource = new connect.CfnHoursOfOperation(this, 'Resource', {
+      config: this.buildHOOConfig(props.definitions),
+      name: props.name,
+      timeZone: props.timeZone ?? 'UTC',
+      instanceArn: this.instanceArn,
+    });
   }
 
   private buildHOOConfig(definitions?: HoursOfOperationDefinition[]): connect.CfnHoursOfOperation.HoursOfOperationConfigProperty[] {

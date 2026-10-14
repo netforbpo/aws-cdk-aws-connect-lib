@@ -101,7 +101,7 @@ export class Prompt extends Resource implements IPrompt {
 
     this.instance = props.instance;
 
-    this.resource = new connect.CfnPrompt(this, 'Prompt', {
+    this.resource = new connect.CfnPrompt(this, 'Resource', {
       instanceArn: this.instance.instanceArn,
       name: props.name,
       description: props.description,

@@ -69,7 +69,7 @@ export class PhoneNumber extends Resource implements IPhoneNumber {
       throw new Error('Invalid target');
     }
 
-    this.resource = new connect.CfnPhoneNumber(this, 'PhoneNumber', {
+    this.resource = new connect.CfnPhoneNumber(this, 'Resource', {
       targetArn,
       description: props.description,
       countryCode: props.countryCode,

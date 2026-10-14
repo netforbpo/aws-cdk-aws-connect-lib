@@ -127,7 +127,7 @@ export class User extends Resource implements IUser {
 
     addConstructMetadata(this, props);
 
-    this.resource = new connect.CfnUser(this, 'User', {
+    this.resource = new connect.CfnUser(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       username: props.username,
       routingProfileArn: props.routingProfile.routingProfileArn,

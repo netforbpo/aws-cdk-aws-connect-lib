@@ -35,7 +35,7 @@ export class ContactFlowModuleAlias extends Resource implements IContactFlowModu
 
     this._contactFlowModuleVersion = props.contactFlowModuleVersion;
 
-    this.resource = new connect.CfnContactFlowModuleAlias(this, 'Alias', {
+    this.resource = new connect.CfnContactFlowModuleAlias(this, 'Resource', {
       contactFlowModuleId: this._contactFlowModuleVersion.contactFlowModule.contactFlowModuleArn,
       description: props.description,
       name: props.aliasName,

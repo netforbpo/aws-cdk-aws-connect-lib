@@ -35,7 +35,7 @@ export class TrafficDistributionGroup extends Resource implements ITrafficDistri
 
     addConstructMetadata(this, props);
 
-    this.resource = new connect.CfnTrafficDistributionGroup(this, 'TrafficDistributionGroup', {
+    this.resource = new connect.CfnTrafficDistributionGroup(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.description,

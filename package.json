@@ -41,7 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "@vitest/coverage-v8": "^4",
-    "aws-cdk-lib": "2.250.0",
+    "aws-cdk-lib": "2.252.0",
     "commit-and-tag-version": "^13",
     "constructs": "10.5.1",
     "eslint": "^9",
@@ -58,7 +58,7 @@
     "vitest-plugin-set": "^1.0.0"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.250.0",
+    "aws-cdk-lib": "^2.252.0",
     "constructs": "^10.5.1"
   },
   "keywords": [

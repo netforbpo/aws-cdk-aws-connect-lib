@@ -5,7 +5,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'netforbpo',
   authorOrganization: true,
   authorAddress: 'https://github.com/netforbpo',
-  cdkVersion: '2.250.0',
+  cdkVersion: '2.252.0',
   defaultReleaseBranch: 'main',
   jsiiVersion: '~6.0.0',
   name: '@netforbpo/aws-cdk-aws-connect-lib',

@@ -151,7 +151,7 @@ export interface IInstance extends IResource {
    */
   readonly instanceName?: string;
 
-  addStorageConfig(config: StorageConfig, id: string | undefined, scope: Construct | undefined): void;
+  addStorageConfig(config: StorageConfig): void;
 
   associateLambdaFunction(id: string, func: lambda.IFunction, scope: Construct | undefined): void;
 
@@ -186,7 +186,7 @@ abstract class InstanceBase extends Resource implements IInstance {
     this.removalPolicy = removalPolicy;
   }
 
-  addStorageConfig(config: StorageConfig, id: string | undefined = undefined, scope: Construct | undefined = undefined) {
+  addStorageConfig(config: StorageConfig) {
     if (this.storageResourceTypes.has(config.resourceType)) {
       Annotations.of(this).addError(`Duplicate resourceType ${config.resourceType} in storageConfig`);
       return;
@@ -196,12 +196,14 @@ abstract class InstanceBase extends Resource implements IInstance {
       return;
     }
     this.storageResourceTypes.add(config.resourceType);
-    const storage = new connect.CfnInstanceStorageConfig(scope || this, id || `StorageConfig-${config.resourceType}`, config.asStorageConfigProps(this.instanceArn));
+    const parent = new Construct(this, `StorageConfig-${config.resourceType}`);
+    const storage = new connect.CfnInstanceStorageConfig(parent, 'Resource', config.asStorageConfigProps(this.instanceArn));
     storage.applyRemovalPolicy(config.removalPolicy, { default: this.removalPolicy || RemovalPolicy.DESTROY });
   }
 
   associateLambdaFunction(id: string, func: lambda.IFunction, scope: Construct | undefined = undefined) {
-    new connect.CfnIntegrationAssociation(scope || this, id, {
+    const parent = new Construct(scope || this, id);
+    new connect.CfnIntegrationAssociation(parent, 'Resource', {
       instanceId: this.instanceArn,
       integrationType: 'LAMBDA_FUNCTION',
       integrationArn: func.functionArn,
@@ -209,7 +211,8 @@ abstract class InstanceBase extends Resource implements IInstance {
   }
 
   associateLexBot(id: string, bot: lex.IBotAliasRef, scope: Construct | undefined = undefined) {
-    new connect.CfnIntegrationAssociation(scope || this, id, {
+    const parent = new Construct(scope || this, id);
+    new connect.CfnIntegrationAssociation(parent, 'Resource', {
       instanceId: this.instanceArn,
       integrationType: 'LEX_BOT',
       integrationArn: bot.botAliasRef.botAliasArn,
@@ -310,11 +313,12 @@ export class Instance extends InstanceBase {
     }
 
     this.instanceName = props.instanceAlias;
-    this.resource = new connect.CfnInstance(this, 'Instance', {
+    this.resource = new connect.CfnInstance(this, 'Resource', {
       attributes,
       identityManagementType: props.identityType,
       instanceAlias: props.instanceAlias,
     });
+    this.node.defaultChild = this.resource;
     this.resource.applyRemovalPolicy(props.removalPolicy, { default: RemovalPolicy.DESTROY });
 
     if (props.storageConfigs) {

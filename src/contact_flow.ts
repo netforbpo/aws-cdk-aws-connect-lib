@@ -111,7 +111,7 @@ export class ContactFlow extends Resource implements IContactFlow {
 
     addConstructMetadata(this, props);
 
-    this.resource = new connect.CfnContactFlow(this, 'Flow', {
+    this.resource = new connect.CfnContactFlow(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       type: props.type,
       name: props.name,

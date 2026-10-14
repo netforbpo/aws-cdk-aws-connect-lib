@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import {
   aws_connect as connect,
   ContextProvider,
@@ -10,7 +9,7 @@ import {
   ValidationError,
 } from 'aws-cdk-lib';
 import * as cxschema from 'aws-cdk-lib/cloud-assembly-schema';
-import { lit } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { lit, md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { addConstructMetadata } from 'aws-cdk-lib/core/lib/metadata-resource';
 import { Construct } from 'constructs';
 import { IInstance } from './instance';
@@ -120,10 +119,10 @@ abstract class DataTableBase extends Resource implements IDataTable {
    * Define an attribute for the data table
    *
    * @param config
-   * @param id
    */
-  addAttribute(config: DataTableAttributeProps, id: string | undefined = undefined): DataTableAttribute {
-    const attrib = new connect.CfnDataTableAttribute(this, id || `Attribute-${config.name}}`, {
+  addAttribute(config: DataTableAttributeProps): DataTableAttribute {
+    const parent = new Construct(this, `Attribute-${config.name}}`);
+    const attrib = new connect.CfnDataTableAttribute(parent, 'Resource', {
       instanceArn: this.instanceArn,
       dataTableArn: this.dataTableArn,
       name: config.name,
@@ -149,7 +148,7 @@ abstract class DataTableBase extends Resource implements IDataTable {
     if (json_encode) {
       data = JSON.stringify(data);
     }
-    const md5 = crypto.createHash('md5').update(data).digest('hex');
+    const md5 = md5hash(data);
     return md5.slice(0, length).toUpperCase();
   }
 
@@ -161,7 +160,7 @@ abstract class DataTableBase extends Resource implements IDataTable {
         throw new ValidationError(lit`Arguments`, `Key ${key} was not found. Make sure you defined it with DataTable.addAttribute`, this);
       }
       ret.push({
-        // This ignore is because we CAN push a IResolvable to attributeId
+        // This ignore is because we CAN push an IResolvable to attributeId
         // @ts-ignore
         attributeId: lookup.attributeId,
         attributeValue: value,
@@ -179,17 +178,15 @@ abstract class DataTableBase extends Resource implements IDataTable {
    */
   addRecord(primary_values: { [key: string]: string }, values: { [key: string]: string }) {
     const keyhash = this.buildHash(primary_values);
-    new connect.CfnDataTableRecord(
-      this, `Record-${keyhash}`,
-      {
-        instanceArn: this.instanceArn,
-        dataTableArn: this.dataTableArn,
-        dataTableRecord: {
-          primaryValues: this.mapAttributes(primary_values),
-          values: this.mapAttributes(values),
-        },
+    const parent = new Construct(this, `Record-${keyhash}`);
+    new connect.CfnDataTableRecord(parent, 'Resource', {
+      instanceArn: this.instanceArn,
+      dataTableArn: this.dataTableArn,
+      dataTableRecord: {
+        primaryValues: this.mapAttributes(primary_values),
+        values: this.mapAttributes(values),
       },
-    );
+    });
   }
 }
 
@@ -248,7 +245,7 @@ export class DataTable extends DataTableBase {
     addConstructMetadata(this, props);
 
     this.instance = props.instance;
-    this.resource = new connect.CfnDataTable(this, 'DataTable', {
+    this.resource = new connect.CfnDataTable(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.description,

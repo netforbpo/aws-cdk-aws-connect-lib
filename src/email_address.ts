@@ -42,7 +42,7 @@ export class EmailAddress extends Resource implements IEmailAddress {
   constructor(scope: Construct, id: string, props: EmailAddressProps) {
     super(scope, id);
 
-    this.resource = new connect.CfnEmailAddress(this, 'EmailAddress', {
+    this.resource = new connect.CfnEmailAddress(this, 'Resource', {
       emailAddress: props.emailAddress,
       aliasConfigurations: props.aliases?.map(alias => ({ emailAddressArn: alias.emailAddressArn })),
       description: props.description,

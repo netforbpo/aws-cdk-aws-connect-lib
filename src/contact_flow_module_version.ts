@@ -36,7 +36,7 @@ export class ContactFlowModuleVersion extends Resource implements IContactFlowMo
 
     this._contactFlowModule = props.contactFlowModule;
 
-    this.resource = new connect.CfnContactFlowModuleVersion(this, 'Version', {
+    this.resource = new connect.CfnContactFlowModuleVersion(this, 'Resource', {
       contactFlowModuleId: this._contactFlowModule.contactFlowModuleArn,
       description: props.description,
     });

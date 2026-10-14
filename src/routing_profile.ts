@@ -182,7 +182,7 @@ export class RoutingProfile extends Resource implements IRoutingProfile {
 
     addConstructMetadata(this, props);
 
-    this.resource = new connect.CfnRoutingProfile(this, 'RoutingProfile', {
+    this.resource = new connect.CfnRoutingProfile(this, 'Resource', {
       instanceArn: props.instance.instanceArn,
       name: props.name,
       description: props.description,
