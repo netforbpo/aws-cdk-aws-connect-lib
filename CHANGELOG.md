@@ -1,4 +1,10 @@
 
+## [0.3.3](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.3.2...v0.3.3) (2026-10-27)
+
+### Bug Fixes
+
+* Correct ability to create a prompt ([a2e2021](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/a2e2021aef99da62fe9bb0e8384bcd195a8d9f67))
+
 ## [0.3.2](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.3.1...v0.3.2) (2026-10-14)
 
 ### Features
