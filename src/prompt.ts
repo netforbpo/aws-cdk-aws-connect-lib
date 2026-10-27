@@ -33,9 +33,9 @@ export interface PromptProps {
    */
   readonly description?: string;
   /**
-   * S3 URL of the prompt. Required when creating a prompt.
+   * S3 URI of the prompt. Required when creating a prompt.
    */
-  readonly s3Url?: string;
+  readonly s3Uri?: string;
 }
 
 export interface PromptLookupOptions {
@@ -105,6 +105,7 @@ export class Prompt extends Resource implements IPrompt {
       instanceArn: this.instance.instanceArn,
       name: props.name,
       description: props.description,
+      s3Uri: props.s3Uri,
     });
   }
 
