@@ -1,4 +1,10 @@
 
+## [0.3.4](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.3.3...v0.3.4) (2026-10-29)
+
+### Features
+
+* do not auto retain the current version. ([162d856](https://github.com/netforbpo/aws-cdk-aws-connect-lib/commit/162d8568e56894bf9045b56b8c1e588553479da6))
+
 ## [0.3.3](https://github.com/netforbpo/aws-cdk-aws-connect-lib/compare/v0.3.2...v0.3.3) (2026-10-27)
 
 ### Bug Fixes
